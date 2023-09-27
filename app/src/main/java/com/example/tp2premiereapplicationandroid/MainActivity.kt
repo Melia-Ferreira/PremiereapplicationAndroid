@@ -20,60 +20,99 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Button
+import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
+import androidx.compose.material3.windowsizeclass.WindowSizeClass
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
+import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 class MainActivity : ComponentActivity() {
+    @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             TP2PremiereApplicationAndroidTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
-                    Screen()
+                    val windowSizeClass = calculateWindowSizeClass(this)
+                    Screen(windowSizeClass)
                 }
             }
         }
     }
 }
 @Composable
-fun Screen() {
-    Column(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center){
-        MonImage()
-        Spacer(modifier = Modifier.height(15.dp)) //espace
-        Texte()
-        Spacer(modifier = Modifier.height(30.dp)) //espace
-        Row{
-            Reseaux()
+fun Screen(windowClass:WindowSizeClass) {
+    when (windowClass.widthSizeClass) {
+        WindowWidthSizeClass.Compact -> {
+            Column(
+                Modifier.fillMaxSize(),
+                horizontalAlignment = CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
+                MonImage()
+                Spacer(modifier = Modifier.height(15.dp)) //espace
+                Texte()
+                Spacer(modifier = Modifier.height(30.dp)) //espace
+                Row {
+                    Reseaux()
+                }
+                Spacer(modifier = Modifier.height(30.dp)) //espace
+                Bouton()
+            }
         }
-        Spacer(modifier = Modifier.height(30.dp)) //espace
-        Bouton()
-    }
 
+        else -> {
+            Row(
+                Modifier.fillMaxSize(),
+                verticalAlignment = Alignment.CenterVertically ,
+                horizontalArrangement = Arrangement.Center
+            ) {
+                Column(
+                    horizontalAlignment = CenterHorizontally
+                    )
+                            {
+                    MonImage()
+                    Spacer(modifier = Modifier.height(15.dp)) //espace
+                    Texte()
+                    Spacer(modifier = Modifier.height(30.dp)) //espace
+                }
+                Spacer(modifier = Modifier.width(50.dp))
+                Column(
+                    horizontalAlignment = CenterHorizontally
+                ) {
+                    Reseaux()
+                    Spacer(modifier = Modifier.height(30.dp)) //espace
+                    Bouton()
+                }
+            }
+        }
+    }
 }
 @Composable
 fun Texte() {
-    Column (horizontalAlignment = Alignment.CenterHorizontally){
+    Column (horizontalAlignment = CenterHorizontally){
         Text(
             text = "Mélia Ferreira",
             style = MaterialTheme.typography.titleLarge,
-            fontSize = 50.sp,
+            fontSize = 40.sp,
             fontWeight = FontWeight.Bold
         )
         Text(
             text = "Étudiante en FIE4",
             style = MaterialTheme.typography.bodyMedium,
-            fontSize = 25.sp)
+            fontSize = 15.sp)
         Text(
             text = "École d'ingénieurs ISIS Castres",
             style = MaterialTheme.typography.bodyMedium,
-            fontSize = 25.sp)
+            fontSize = 15.sp)
 
 }
 }
@@ -94,7 +133,7 @@ fun MonImage(){
 
 @Composable
 fun Reseaux(){
-    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+    Column(horizontalAlignment = CenterHorizontally) {
         Row() {
             Image(
                 painterResource(id = R.drawable.gmail),
