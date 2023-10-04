@@ -36,14 +36,13 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 
-class MainActivity : ComponentActivity() { //Définit une classe appelée MainActivity qui étend ComponentActivity. ComponentActivity est une classe de base fournie par Jetpack Compose pour les activités Android. Cette classe est utilisée pour gérer le cycle de vie de l'activité.
-
-    @OptIn(ExperimentalMaterial3WindowSizeClassApi::class) // Cette annotation indique que l'activité utilise une API expérimentale. En d'autres termes, elle signale que des fonctionnalités ou des bibliothèques expérimentales sont utilisées dans cette activité.
-    override fun onCreate(savedInstanceState: Bundle?) { //Ceci est une fonction onCreate qui est appelée lorsque l'activité est créée. Elle prend en paramètre un objet Bundle, qui est généralement utilisé pour restaurer l'état précédent de l'activité si nécessaire.
-        super.onCreate(savedInstanceState) //Appelle la fonction onCreate de la classe parent (ComponentActivity) pour effectuer toute initialisation nécessaire.
-        setContent { //Cette ligne définit le contenu de l'activité à l'aide de Jetpack Compose. Il spécifie la structure de l'interface utilisateur de l'activité.
-            TP2PremiereApplicationAndroidTheme { //Cela fait référence à un thème (style) défini pour l'application Android. Le contenu de l'activité sera stylisé en fonction de ce thème.
-                    val windowSizeClass = calculateWindowSizeClass(this) //Cette ligne appelle une fonction calculateWindowSizeClass pour déterminer la classe de taille de la fenêtre de l'appareil. Cela peut être utile pour adapter l'interface utilisateur en fonction de la taille de l'écran ou de l'appareil.
+class MainActivity : ComponentActivity() {
+    @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContent {
+            TP2PremiereApplicationAndroidTheme {
+                    val windowSizeClass = calculateWindowSizeClass(this)
                 val navController = rememberNavController()
 
                 NavHost(

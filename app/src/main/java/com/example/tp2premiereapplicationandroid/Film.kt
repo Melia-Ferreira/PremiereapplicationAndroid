@@ -10,6 +10,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
@@ -30,6 +33,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -47,7 +51,10 @@ import androidx.compose.ui.semantics.traversalIndex
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import androidx.compose.foundation.lazy.items
+import androidx.compose.runtime.LaunchedEffect
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -55,18 +62,21 @@ import androidx.navigation.NavController
 fun Film(navController: NavController,
            windowClass: WindowSizeClass
 ){
+
     Scaffold(
         topBar = {
-            BarreRecherche()
+          // BarreRecherche()
         },
         bottomBar = {
             BarreNavigation()
         },
         content = {
             Box(
-                modifier = Modifier.padding(it) // Utilisez contentPadding pour définir la marge intérieure
+                modifier = Modifier
+                    .padding(it)
+                    .fillMaxWidth() // Utilisez contentPadding pour définir la marge intérieure
             ) {
-                //Insérer code de la page
+                ListeFilmsPopulaire()
             }
         }
     )
@@ -75,7 +85,7 @@ fun Film(navController: NavController,
 
 
 @OptIn(ExperimentalMaterial3Api::class)
-@Composable//un autre commentaire ici aussi ça fait plaisir
+@Composable
 fun BarreRecherche() {
     var text by rememberSaveable { mutableStateOf("") }
     var active by rememberSaveable { mutableStateOf(false) }
@@ -114,6 +124,25 @@ fun BarreNavigation() {
                 selected = selectedItem == index,
                 onClick = { selectedItem = index }
             )
+        }
+    }
+}
+
+@Composable
+fun ListeFilmsPopulaire() {
+
+    val viewmodel : MainViewModel = viewModel()
+    val movies by viewmodel.movies.collectAsState()
+    LaunchedEffect(true) {
+        viewmodel.getFilmsInitiaux()
+    }
+
+
+    LazyVerticalGrid(
+        columns = GridCells.Adaptive(minSize = 128.dp)
+    ){
+        items(movies) { movie ->
+            Text(text = movie.title)
         }
     }
 }
