@@ -2,6 +2,7 @@ package com.example.tp2premiereapplicationandroid
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -56,7 +57,11 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ElevatedCard
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.graphics.Color
 import coil.compose.rememberImagePainter
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -130,6 +135,7 @@ fun BarreNavigation() {
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ListeFilmsPopulaire() {
 
@@ -139,33 +145,75 @@ fun ListeFilmsPopulaire() {
         viewmodel.getFilmsInitiaux()
     }
 
-    LazyVerticalGrid(
-        columns = GridCells.Fixed(2)
-    ) {
-        items(movies) { movie ->
-            Image(
-                painter = rememberImagePainter(
-                    data = "https://image.tmdb.org/t/p/w780" + movie.poster_path,
-                    builder = {
-                        crossfade(true)
+            LazyVerticalGrid(
+                columns = GridCells.Fixed(2),
+                verticalArrangement = Arrangement.spacedBy(16.dp),
+                horizontalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
+                items(movies) { movie ->
+                    ElevatedCard(
+                        elevation = CardDefaults.cardElevation(
+                            defaultElevation = 6.dp
+                        ),
+                        onClick = { },
+                        modifier = Modifier
+                            .width(300.dp)
+                            .height(350.dp)
+                            .padding(8.dp),
+                        colors = CardDefaults.cardColors(
+                            containerColor = Color.Cyan,
+                        )
+                    ){
+                        Box(
+                            modifier = Modifier
+                                .fillMaxSize()
+                            //.height(200.dp)
+                        ) {
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center
+                    ) {
+                        Image(
+                            painter = rememberImagePainter(
+                                data = "https://image.tmdb.org/t/p/w780" + movie.poster_path,
+                                builder = {
+                                    crossfade(true)
+                                }
+                            ),
+                            contentDescription = "Image du film" + movie.title,
+                            modifier = Modifier
+                                .width(200.dp)
+                                .height(300.dp)
+                                .padding(
+                                    start = 8.dp,
+                                    top = 8.dp,
+                                    end = 8.dp,
+                                    bottom = 0.dp
+                                )
+                        )
+                        Text(
+                            text = movie.title,
+                            style = MaterialTheme.typography.titleLarge,
+                            fontSize = 15.sp,
+                            fontWeight = FontWeight.Bold,
+                            modifier = Modifier
+                                .padding(top = 2.dp)
+                        )
+
                     }
-                ),
-                contentDescription = null,
-                modifier = Modifier
-                    .width(200.dp)
-                    .height(300.dp)
-                    .padding(8.dp)
-            )
+                }
+
+            }
         }
     }
 }
 
-/* LazyVerticalGrid(
+/*
+    LazyVerticalGrid(
         columns = GridCells.Fixed(2)
     ) {
         items(movies) { movie ->
             Text(text = movie.poster_path)
         }
-    }
-} */
+    } */
 

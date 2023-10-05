@@ -47,7 +47,7 @@ class MainActivity : ComponentActivity() {
 
                 NavHost(
                     navController = navController,
-                    startDestination = "Profil"
+                    startDestination = "Film"
                 ){
                     composable("Profil"){
                         Profil(navController, windowSizeClass)
