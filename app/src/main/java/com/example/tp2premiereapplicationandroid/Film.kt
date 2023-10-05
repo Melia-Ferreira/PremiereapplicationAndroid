@@ -7,8 +7,10 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -55,7 +57,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.LaunchedEffect
-
+import coil.compose.rememberImagePainter
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -73,8 +75,8 @@ fun Film(navController: NavController,
         content = {
             Box(
                 modifier = Modifier
-                    .padding(it)
-                    .fillMaxWidth() // Utilisez contentPadding pour définir la marge intérieure
+                    .padding(it) // Utilisez contentPadding pour définir la marge intérieure
+                    .fillMaxWidth()
             ) {
                 ListeFilmsPopulaire()
             }
@@ -131,18 +133,39 @@ fun BarreNavigation() {
 @Composable
 fun ListeFilmsPopulaire() {
 
-    val viewmodel : MainViewModel = viewModel()
+    val viewmodel: MainViewModel = viewModel()
     val movies by viewmodel.movies.collectAsState()
     LaunchedEffect(true) {
         viewmodel.getFilmsInitiaux()
     }
 
-
     LazyVerticalGrid(
-        columns = GridCells.Adaptive(minSize = 128.dp)
-    ){
+        columns = GridCells.Fixed(2)
+    ) {
         items(movies) { movie ->
-            Text(text = movie.title)
+            Image(
+                painter = rememberImagePainter(
+                    data = "https://image.tmdb.org/t/p/w780" + movie.poster_path,
+                    builder = {
+                        crossfade(true)
+                    }
+                ),
+                contentDescription = null,
+                modifier = Modifier
+                    .width(200.dp)
+                    .height(300.dp)
+                    .padding(8.dp)
+            )
         }
     }
 }
+
+/* LazyVerticalGrid(
+        columns = GridCells.Fixed(2)
+    ) {
+        items(movies) { movie ->
+            Text(text = movie.poster_path)
+        }
+    }
+} */
+
