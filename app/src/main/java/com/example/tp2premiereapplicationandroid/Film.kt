@@ -72,7 +72,7 @@ fun Film(navController: NavController,
 
     Scaffold(
         topBar = {
-          // BarreRecherche()
+          BarreRecherche()
         },
         bottomBar = {
             BarreNavigation()
@@ -98,8 +98,9 @@ fun BarreRecherche() {
     var active by rememberSaveable { mutableStateOf(false) }
 
     Box(
-        Modifier
-            .fillMaxSize()
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(bottom = 8.dp)
     ) {
         SearchBar(
             modifier = Modifier
