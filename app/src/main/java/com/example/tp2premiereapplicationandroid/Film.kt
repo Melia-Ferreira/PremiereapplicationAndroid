@@ -83,7 +83,7 @@ fun Film(navController: NavController,
                     .padding(it) // Utilisez contentPadding pour définir la marge intérieure
                     .fillMaxWidth()
             ) {
-                ListeFilmsPopulaire()
+                ListeFilmsPopulaire(navController, windowClass)
             }
         }
     )
@@ -113,7 +113,7 @@ fun BarreRecherche() {
             placeholder = { Text("Rechercher des films, des séries, des acteurs") },
             trailingIcon = { Icon(Icons.Default.Search, contentDescription = "Icône de menu") },
         ) {
-            LazyColumn(){}
+           // LazyColumn(){}
         }
     }
 }
@@ -137,7 +137,8 @@ fun BarreNavigation() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ListeFilmsPopulaire() {
+fun ListeFilmsPopulaire(navController: NavController,
+                        windowClass: WindowSizeClass) {
 
     val viewmodel: MainViewModel = viewModel()
     val movies by viewmodel.movies.collectAsState()
@@ -153,15 +154,15 @@ fun ListeFilmsPopulaire() {
                 items(movies) { movie ->
                     ElevatedCard(
                         elevation = CardDefaults.cardElevation(
-                            defaultElevation = 6.dp
+                            defaultElevation = 6.dp,
                         ),
-                        onClick = { },
+                        onClick = {navController.navigate("DetailsFilm") },
                         modifier = Modifier
                             .width(300.dp)
-                            .height(350.dp)
+                            .height(380.dp)
                             .padding(8.dp),
                         colors = CardDefaults.cardColors(
-                            containerColor = Color.Cyan,
+                            containerColor = Color.White,
                         )
                     ){
                         Box(
@@ -194,10 +195,18 @@ fun ListeFilmsPopulaire() {
                         Text(
                             text = movie.title,
                             style = MaterialTheme.typography.titleLarge,
-                            fontSize = 15.sp,
+                            fontSize = 18.sp,
                             fontWeight = FontWeight.Bold,
                             modifier = Modifier
-                                .padding(top = 2.dp)
+                                //.padding(top = 2.dp)
+                        )
+                        Text(
+                            text = movie.release_date,
+                            style = MaterialTheme.typography.titleLarge,
+                            fontSize = 12.sp,
+                            fontWeight = FontWeight.Medium,
+                            modifier = Modifier
+                                //.padding(top = 2.dp)
                         )
 
                     }
