@@ -44,6 +44,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.graphics.Color
@@ -58,12 +60,18 @@ fun Film(navController: NavController,
 ){
     Scaffold(
         topBar = {
-          BarreRecherche(
-              viewModel,
-              onSearchClick = {
-                  viewModel.getFilmsRecherche(query = it)
-              }
-          )
+                 ToolBar(
+                     searchQuery = "",
+                     onSearchClick = {
+                         viewModel.getFilmsRecherche(query = it)
+                     },
+                     searchActive = false,
+                     viewModel = viewModel)
+               /*  BarreRecherche(
+                     viewModel,
+                     onSearchClick = {
+                         viewModel.getFilmsRecherche(query = it)
+                     }) */
         },
 
         bottomBar = {
@@ -82,6 +90,44 @@ fun Film(navController: NavController,
 }
 
 
+@ExperimentalMaterial3Api
+@Composable
+fun ToolBar(
+    searchQuery: String,
+    onSearchClick: (text: String) -> Unit,
+    searchActive: Boolean,
+    viewModel: MainViewModel
+) {
+    Column {
+        TopAppBar(
+            title = {
+                Text(text = "Fav'App")
+            },
+            actions = {
+                if (!searchActive) {
+                    IconButton(onClick = {
+                        onSearchClick(searchQuery)
+                    }) {
+                        Icon(
+                            imageVector = Icons.Default.Search,
+                            contentDescription = "Rechercher"
+                        )
+                    }
+
+                }
+            },
+        )
+        if (searchActive) {
+            BarreRecherche(
+                viewModel,
+                onSearchClick = {
+                    viewModel.getFilmsRecherche(query = it)
+                }
+            )
+        }
+    }
+}
+
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -97,7 +143,16 @@ fun BarreRecherche( viewModel: MainViewModel,
             .fillMaxWidth()
             .padding(bottom = 8.dp)
     ) {
-        SearchBar(
+       /*ToolBar(
+            searchQuery = text,
+            onSearchClick = {
+                            text=it
+                active=!active
+                onSearchClick(it)
+            },
+            searchActive = active
+        ) */
+       SearchBar(
             modifier = Modifier
                 .align(Alignment.TopCenter)
                 .semantics { traversalIndex = -1f },
@@ -114,20 +169,6 @@ fun BarreRecherche( viewModel: MainViewModel,
                 ){
 
         }
-      /*  Button(
-            onClick = {
-                onSearchClick()
-            },
-            modifier = Modifier
-                .align(Alignment.TopEnd)
-                .semantics { traversalIndex = 1f },
-        ){
-            Icon(
-                imageVector = Icons.Filled.Search,
-                contentDescription = "Rechercher",
-                modifier = Modifier.size(24.dp)
-            )
-        } */
     }
 }
 
