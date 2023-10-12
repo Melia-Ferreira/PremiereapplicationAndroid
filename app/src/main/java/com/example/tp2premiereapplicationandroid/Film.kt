@@ -47,6 +47,7 @@ import androidx.compose.material3.ElevatedCard
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import coil.compose.rememberImagePainter
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -134,11 +135,16 @@ fun BarreRecherche( viewModel: MainViewModel,
 fun BarreNavigation() {
     var selectedItem by remember { mutableIntStateOf(0) }
     val items = listOf("Films", "Séries", "Acteurs")
+    val icons = listOf(
+        painterResource(id = R.drawable.baseline_movie_creation_24),
+        painterResource(id = R.drawable.baseline_tv_24),
+        painterResource(id = R.drawable.baseline_person_24)
+    )
 
     NavigationBar {
         items.forEachIndexed { index, item ->
             NavigationBarItem(
-                icon = { Icon(Icons.Filled.Favorite, contentDescription = item) },
+                icon = { Image(painter = icons[index], contentDescription = "Icône de film") },
                 label = { Text(item) },
                 selected = selectedItem == index,
                 onClick = { selectedItem = index }
