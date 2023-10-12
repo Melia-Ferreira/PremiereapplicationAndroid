@@ -24,3 +24,5 @@ data class Movie(
     val vote_average: Double,
     val vote_count: Int
 )
+
+

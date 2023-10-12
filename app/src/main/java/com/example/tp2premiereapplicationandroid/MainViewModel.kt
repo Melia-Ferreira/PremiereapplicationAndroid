@@ -3,6 +3,7 @@ package com.example.tp2premiereapplicationandroid
 
 
 import android.util.Log
+import androidx.compose.runtime.MutableState
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -26,7 +27,15 @@ class MainViewModel : ViewModel() {
             val films = service.getFilmAffiche(apikey)
             movies.value = films.results
 
-            Log.v("xxx","taille:" + movies.value.size)
+         //   Log.v("xxx","taille:" + movies.value.size)
             }
         }
+
+    fun getFilmsRecherche(query: String){
+        viewModelScope.launch {
+                movies.value = service.getFilmRecherche(query, apikey).results
+            Log.v("xxx","taille:" + movies.value.size)
+            Log.v("xxx","taille:" + movies.value[0].title)
+            }
+    }
     }
