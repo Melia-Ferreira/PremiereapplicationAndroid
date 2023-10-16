@@ -60,18 +60,18 @@ fun Film(navController: NavController,
 ){
     Scaffold(
         topBar = {
-                 ToolBar(
+                 /* ToolBar(
                      searchQuery = "",
                      onSearchClick = {
                          viewModel.getFilmsRecherche(query = it)
                      },
                      searchActive = false,
-                     viewModel = viewModel)
-               /*  BarreRecherche(
+                     viewModel = viewModel) */
+               BarreRecherche(
                      viewModel,
                      onSearchClick = {
                          viewModel.getFilmsRecherche(query = it)
-                     }) */
+                     })
         },
 
         bottomBar = {
@@ -215,7 +215,9 @@ fun ListeFilmsPopulaire(navController: NavController,
                         elevation = CardDefaults.cardElevation(
                             defaultElevation = 6.dp,
                         ),
-                        onClick = {navController.navigate("DetailsFilm") },
+                        onClick = {
+                            navController.navigate("DetailsFilm$movie.id")
+                                  },
                         modifier = Modifier
                             .width(300.dp)
                             .height(380.dp)

@@ -3,6 +3,7 @@ package com.example.tp2premiereapplicationandroid
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.runtime.Composable
@@ -32,6 +33,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -44,7 +46,7 @@ class MainActivity : ComponentActivity() {
             TP2PremiereApplicationAndroidTheme {
                     val windowSizeClass = calculateWindowSizeClass(this)
                 val navController = rememberNavController()
-                val viewModel = MainViewModel()
+                val viewModel : MainViewModel = viewModel()
 
                 NavHost(
                     navController = navController,
@@ -55,6 +57,9 @@ class MainActivity : ComponentActivity() {
                     }
                     composable("Film"){
                         Film(navController, windowSizeClass, viewModel )
+                    }
+                    composable("DetailsFilm/{filmID}"){
+                        DetailsFilm(navController, windowSizeClass, viewModel)
                     }
                 }
             }

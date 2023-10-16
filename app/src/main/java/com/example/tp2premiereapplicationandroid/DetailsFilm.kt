@@ -48,44 +48,20 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.graphics.Color
 import coil.compose.rememberImagePainter
 
-/*
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DetailsFilm(navController: NavController,
          windowClass: WindowSizeClass,
          viewModel: MainViewModel
 ) {
-    Column(
-        Modifier.fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ) {
-        Text(text = movie.title,
-            style = MaterialTheme.typography.titleLarge,
-            fontSize = 18.sp,
-            fontWeight = FontWeight.Bold,
-            modifier = Modifier
-        )
+    val films by viewModel.film.collectAsState()
+    LaunchedEffect(true) {
+        viewModel.getDetailFilm()
     }
-}
-
-
-@Composable
-fun MonImage(film: Movie){
-    val painter = rememberImagePainter(
-        data = "https://image.tmdb.org/t/p/w500" + film.poster_path,
-        builder = {
-            crossfade(true)
-        }
-    )
-    Image(
-        painter = painter,
-        contentDescription = null,
-        modifier = Modifier
-            .width(200.dp)
-            .height(300.dp)
-            .padding(10.dp)
-            .fillMaxWidth()
+    Text(
+        text = films.original_title,
+        style = MaterialTheme.typography.titleLarge,
+        fontSize = 40.sp,
+        fontWeight = FontWeight.Bold
     )
 }
-*/

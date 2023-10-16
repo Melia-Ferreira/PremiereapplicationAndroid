@@ -3,7 +3,7 @@ package com.example.tp2premiereapplicationandroid
 
 
 import android.util.Log
-import androidx.compose.runtime.MutableState
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -11,8 +11,12 @@ import kotlinx.coroutines.launch
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 
-class MainViewModel : ViewModel() {
+class MainViewModel(
+    savedStateHandle: SavedStateHandle
+) : ViewModel() {
     val movies = MutableStateFlow<List<Movie>>(listOf())
+    val film = MutableStateFlow<FilmDetail>(FilmDetail())
+    private val filmID: String = checkNotNull(savedStateHandle["filmID"])
 
     val apikey = "d99da6596d7cad8888832ecc40a57d4b"
 
@@ -22,20 +26,27 @@ class MainViewModel : ViewModel() {
         .build()
         .create(TmdbAPI::class.java)
 
-    fun getFilmsInitiaux(){
+    fun getFilmsInitiaux() {
         viewModelScope.launch {
             val films = service.getFilmAffiche(apikey)
             movies.value = films.results
 
-         //   Log.v("xxx","taille:" + movies.value.size)
-            }
+            //   Log.v("xxx","taille:" + movies.value.size)
         }
+    }
 
-    fun getFilmsRecherche(query: String){
+    fun getFilmsRecherche(query: String) {
         viewModelScope.launch {
-                movies.value = service.getFilmRecherche(query, apikey).results
-            Log.v("xxx","taille:" + movies.value.size)
-            Log.v("xxx","taille:" + movies.value[0].title)
-            }
+            movies.value = service.getFilmRecherche(query, apikey).results
+            Log.v("xxx", "taille:" + movies.value.size)
+            Log.v("xxx", "taille:" + movies.value[0].title)
+        }
     }
+
+    fun getDetailFilm() {
+        viewModelScope.launch {
+            film.value = service.getFilmDetail(filmID, apikey)
+            //Log.v("xxx", "titre:" + films.original_title)
+        }
     }
+}
