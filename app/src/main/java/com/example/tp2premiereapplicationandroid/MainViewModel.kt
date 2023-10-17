@@ -16,7 +16,7 @@ class MainViewModel(
 ) : ViewModel() {
     val movies = MutableStateFlow<List<Movie>>(listOf())
     val film = MutableStateFlow<FilmDetail>(FilmDetail())
-    private val filmID: String = checkNotNull(savedStateHandle["filmID"])
+    private val filmID: String? = savedStateHandle["filmID"]
 
     val apikey = "d99da6596d7cad8888832ecc40a57d4b"
 
@@ -45,7 +45,7 @@ class MainViewModel(
 
     fun getDetailFilm() {
         viewModelScope.launch {
-            film.value = service.getFilmDetail(filmID, apikey)
+            film.value = service.getFilmDetail(filmID?:"", apikey)
             //Log.v("xxx", "titre:" + films.original_title)
         }
     }

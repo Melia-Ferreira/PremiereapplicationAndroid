@@ -52,7 +52,8 @@ import coil.compose.rememberImagePainter
 @Composable
 fun DetailsFilm(navController: NavController,
          windowClass: WindowSizeClass,
-         viewModel: MainViewModel
+         viewModel: MainViewModel,
+                filmID: String
 ) {
     val films by viewModel.film.collectAsState()
     LaunchedEffect(true) {

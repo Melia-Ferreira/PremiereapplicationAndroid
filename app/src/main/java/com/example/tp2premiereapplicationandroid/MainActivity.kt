@@ -46,7 +46,7 @@ class MainActivity : ComponentActivity() {
             TP2PremiereApplicationAndroidTheme {
                     val windowSizeClass = calculateWindowSizeClass(this)
                 val navController = rememberNavController()
-                val viewModel : MainViewModel = viewModel()
+                val viewModel : MainViewModel by viewModels()
 
                 NavHost(
                     navController = navController,
@@ -59,7 +59,7 @@ class MainActivity : ComponentActivity() {
                         Film(navController, windowSizeClass, viewModel )
                     }
                     composable("DetailsFilm/{filmID}"){
-                        DetailsFilm(navController, windowSizeClass, viewModel)
+                        DetailsFilm(navController, windowSizeClass, viewModel, filmID)
                     }
                 }
             }
