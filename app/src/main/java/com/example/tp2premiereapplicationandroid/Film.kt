@@ -2,9 +2,12 @@ package com.example.tp2premiereapplicationandroid
 
 import android.util.Log
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -44,12 +47,15 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
 import coil.compose.rememberImagePainter
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -57,148 +63,97 @@ import coil.compose.rememberImagePainter
 fun Film(navController: NavController,
            windowClass: WindowSizeClass,
          viewModel: MainViewModel
-){
-    Scaffold(
-        topBar = {
-                 /* ToolBar(
+) {
+    when (windowClass.widthSizeClass) {
+        WindowWidthSizeClass.Compact -> {
+            Scaffold(
+                topBar = {
+                    /* ToolBar(
                      searchQuery = "",
                      onSearchClick = {
                          viewModel.getFilmsRecherche(query = it)
                      },
                      searchActive = false,
                      viewModel = viewModel) */
-               BarreRecherche(
-                     viewModel,
-                     onSearchClick = {
-                         viewModel.getFilmsRecherche(query = it)
-                     })
-        },
+                    BarreRecherche(
+                        viewModel,
+                        onSearchClick = {
+                            viewModel.getFilmsRecherche(query = it)
+                        })
+                },
 
-        bottomBar = {
-            BarreNavigation()
-        },
-        content = {
-            Box(
-                modifier = Modifier
-                    .padding(it) // Utilisez contentPadding pour définir la marge intérieure
-                    .fillMaxWidth()
-            ) {
-                    ListeFilmsPopulaire(navController, windowClass, viewModel)
-            }
-        }
-    )
-}
-
-
-@ExperimentalMaterial3Api
-@Composable
-fun ToolBar(
-    searchQuery: String,
-    onSearchClick: (text: String) -> Unit,
-    searchActive: Boolean,
-    viewModel: MainViewModel
-) {
-    Column {
-        TopAppBar(
-            title = {
-                Text(text = "Fav'App")
-            },
-            actions = {
-                if (!searchActive) {
-                    IconButton(onClick = {
-                        onSearchClick(searchQuery)
-                    }) {
-                        Icon(
-                            imageVector = Icons.Default.Search,
-                            contentDescription = "Rechercher"
-                        )
+                bottomBar = {
+                    BarreNavigation()
+                },
+                content = {
+                    Box(
+                        modifier = Modifier
+                            .padding(it) // Utilisez contentPadding pour définir la marge intérieure
+                            .fillMaxWidth()
+                    ) {
+                        ListeFilmsPopulaire(navController, windowClass, viewModel)
                     }
-
-                }
-            },
-        )
-        if (searchActive) {
-            BarreRecherche(
-                viewModel,
-                onSearchClick = {
-                    viewModel.getFilmsRecherche(query = it)
                 }
             )
+        } else -> {
+        Row(){
+            LeftBarreNavigationChat()
         }
-    }
-}
-
-
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun BarreRecherche( viewModel: MainViewModel,
-                    onSearchClick: (text: String) -> Unit,
-) {
-    var text by rememberSaveable { mutableStateOf("") }
-    var active by rememberSaveable { mutableStateOf(false) }
-
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(bottom = 8.dp)
-    ) {
-       /*ToolBar(
-            searchQuery = text,
-            onSearchClick = {
-                            text=it
-                active=!active
-                onSearchClick(it)
-            },
-            searchActive = active
-        ) */
-       SearchBar(
+        Box(
             modifier = Modifier
-                .align(Alignment.TopCenter)
-                .semantics { traversalIndex = -1f },
-            query = text,
-            onQueryChange = { text = it },
-            onSearch = {
-                active = false
-                onSearchClick(it)
+                .padding(15.dp) // Utilisez contentPadding pour définir la marge intérieure
+                .fillMaxWidth()
+        ) {
+            ListeFilmsPopulaire(navController, windowClass, viewModel, nbColonne = 3)
+        }
+
+        /*topBar = {
+             ToolBar(
+             searchQuery = "",
+             onSearchClick = {
+                 viewModel.getFilmsRecherche(query = it)
+             },
+             searchActive = false,
+             viewModel = viewModel) */
+                /*FloatingActionButton(onClick = {
+                    BarreRecherche(
+                        viewModel,
+                        onSearchClick = {
+                            viewModel.getFilmsRecherche(query = it)
+                        } ) }) {
+
+               }*/ /*
+                BarreRecherche(
+                    viewModel,
+                    onSearchClick = {
+                        viewModel.getFilmsRecherche(query = it)
+                    })*/
+        /*    },
+
+            bottomBar = {
+                LeftBarreNavigationChat()
             },
-            active = active,
-            onActiveChange = { active = it },
-            placeholder = { Text("Rechercher des films, des séries, des acteurs") },
-            trailingIcon = { Icon(Icons.Default.Search, contentDescription = "Icône de recherche" )},
-                ){
-
-        }
+            content = {
+                Box(
+                    modifier = Modifier
+                        .padding(it) // Utilisez contentPadding pour définir la marge intérieure
+                        .fillMaxWidth()
+                ) {
+                    ListeFilmsPopulaire(navController, windowClass, viewModel)
+                }
+            }
+        )*/
+    }
     }
 }
 
-@Composable
-fun BarreNavigation() {
-    var selectedItem by remember { mutableIntStateOf(0) }
-    val items = listOf("Films", "Séries", "Acteurs")
-    val icons = listOf(
-        painterResource(id = R.drawable.baseline_movie_creation_24),
-        painterResource(id = R.drawable.baseline_tv_24),
-        painterResource(id = R.drawable.baseline_person_24)
-    )
-
-    NavigationBar {
-        items.forEachIndexed { index, item ->
-            NavigationBarItem(
-                icon = { Image(painter = icons[index], contentDescription = "Icône de film") },
-                label = { Text(item) },
-                selected = selectedItem == index,
-                onClick = { selectedItem = index }
-            )
-        }
-    }
-}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ListeFilmsPopulaire(navController: NavController,
                         windowClass: WindowSizeClass,
-                        viewmodel: MainViewModel) {
+                        viewmodel: MainViewModel,
+                        nbColonne: Int=2) {
 
     val movies by viewmodel.movies.collectAsState()
     LaunchedEffect(true) {
@@ -206,7 +161,7 @@ fun ListeFilmsPopulaire(navController: NavController,
     }
 
             LazyVerticalGrid(
-                columns = GridCells.Fixed(2),
+                columns = GridCells.Fixed(nbColonne),
                 verticalArrangement = Arrangement.spacedBy(16.dp),
                 horizontalArrangement = Arrangement.spacedBy(16.dp)
             ) {
@@ -216,7 +171,7 @@ fun ListeFilmsPopulaire(navController: NavController,
                             defaultElevation = 6.dp,
                         ),
                         onClick = {
-                            navController.navigate("DetailsFilm$movie.id")
+                            navController.navigate("DetailsFilm/${movie.id}")
                                   },
                         modifier = Modifier
                             .width(300.dp)

@@ -58,7 +58,8 @@ class MainActivity : ComponentActivity() {
                     composable("Film"){
                         Film(navController, windowSizeClass, viewModel )
                     }
-                    composable("DetailsFilm/{filmID}"){
+                    composable("DetailsFilm/{filmID}"){ backStackEntry ->
+                        val filmID = backStackEntry.arguments?.getString("filmID") ?: ""
                         DetailsFilm(navController, windowSizeClass, viewModel, filmID)
                     }
                 }
