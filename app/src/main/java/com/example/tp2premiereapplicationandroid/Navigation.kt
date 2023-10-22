@@ -154,8 +154,7 @@ fun LeftBarreNavigationChat() {
                 ) {
                     Column (
                         modifier = Modifier
-                            .padding(8.dp)
-                            .fillMaxWidth(),
+                            .padding(8.dp),
                         verticalArrangement = Arrangement.Center,
                         horizontalAlignment = Alignment.CenterHorizontally,
                     ) {

@@ -96,15 +96,17 @@ fun Film(navController: NavController,
                 }
             )
         } else -> {
-        Row(){
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.Center) {
             LeftBarreNavigationChat()
-        }
-        Box(
-            modifier = Modifier
-                .padding(15.dp) // Utilisez contentPadding pour définir la marge intérieure
-                .fillMaxWidth()
-        ) {
-            ListeFilmsPopulaire(navController, windowClass, viewModel, nbColonne = 3)
+            Box(
+                modifier = Modifier
+                    .padding(10.dp)
+                    .fillMaxWidth()
+            ) {
+                ListeFilmsPopulaire(navController, windowClass, viewModel, nbColonne = 3)
+            }
         }
 
         /*topBar = {

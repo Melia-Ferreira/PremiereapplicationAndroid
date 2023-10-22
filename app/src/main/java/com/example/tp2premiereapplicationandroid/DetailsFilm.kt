@@ -17,6 +17,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
@@ -89,20 +90,20 @@ fun DetailsFilm(navController: NavController,
         item {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center,
-            ) {
+                verticalArrangement = Arrangement.Top,
+            ){
                 Image(
                     painter = rememberImagePainter(
                         data = "https://image.tmdb.org/t/p/w500" + films.backdrop_path,
                         builder = {
                             crossfade(true)
+                            size(800,400)
                         }
                     ),
                     contentDescription = "Image du film" + films.original_title,
                     modifier = Modifier
                         .fillMaxWidth()
                         .alpha(0.8f)
-                        .padding(bottom=5.dp)
                 )
                 Text(
                     text = films.original_title,
@@ -115,7 +116,8 @@ fun DetailsFilm(navController: NavController,
             }
         }
         item {
-            Row(//Modifier.fillMaxSize(),
+            Row(
+                //Modifier.fillMaxSize(),
                 verticalAlignment = Alignment.Top,
                 horizontalArrangement = Arrangement.Center
             ) {
@@ -139,7 +141,6 @@ fun DetailsFilm(navController: NavController,
                     modifier = Modifier
                         .padding(end = 15.dp)
                 ) {
-
                     Text(
                         text = "sorti le " + formatDate(
                             films.release_date,
@@ -158,13 +159,11 @@ fun DetailsFilm(navController: NavController,
                         style = MaterialTheme.typography.bodyMedium,
                         fontSize = 15.sp,
                         fontWeight = FontWeight.Light,
-                        modifier = Modifier
-                            .padding(top = 15.dp)
                     )
                 }
             }
         }
-        item{
+        item {
             Column(
                 horizontalAlignment = Alignment.Start,
                 verticalArrangement = Arrangement.Top,
@@ -189,32 +188,35 @@ fun DetailsFilm(navController: NavController,
             }
         }
         item {
+            /* if(films.credits.cast.isNotEmpty()){
             Column(
                 horizontalAlignment = Alignment.Start,
                 verticalArrangement = Arrangement.Top,
                 modifier = Modifier
-                    .padding(start = 20.dp, end = 15.dp)
-            ) {
-                Text(
-                    text = "Têtes d'affiche",
-                    style = MaterialTheme.typography.titleMedium,
-                    fontSize = 30.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = Color.Black,
-                )
+                    .padding(start = 20.dp, end = 15.dp, top=15.dp)
+            ) {*/
+            Text(
+                text = "Têtes d'affiche",
+                style = MaterialTheme.typography.titleMedium,
+                fontSize = 30.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color.Black,
+            )
+        }
 
-                /* LazyVerticalGrid(
+                /*LazyVerticalGrid(
                  columns = GridCells.Fixed(2),
                  verticalArrangement = Arrangement.spacedBy(16.dp),
                  horizontalArrangement = Arrangement.spacedBy(16.dp)
-             ) {
-                 items(films) { movie ->
+             ) {*/
+
+                 items(films.credits.cast) { cast ->
                      ElevatedCard(
                          elevation = CardDefaults.cardElevation(
                              defaultElevation = 6.dp,
                          ),
                          onClick = {
-                             navController.navigate("DetailsFilm/${movie.id}")
+                             navController.navigate("DetailsPersonne/${cast.id}")
                          },
                          modifier = Modifier
                              .width(300.dp)
@@ -235,12 +237,12 @@ fun DetailsFilm(navController: NavController,
                              ) {
                                  Image(
                                      painter = rememberImagePainter(
-                                         data = "https://image.tmdb.org/t/p/w780" + movie.poster_path,
+                                         data = "https://image.tmdb.org/t/p/w780" + cast.profile_path,
                                          builder = {
                                              crossfade(true)
                                          }
                                      ),
-                                     contentDescription = "Image du film" + movie.title,
+                                     contentDescription = "Image" + cast.name,
                                      modifier = Modifier
                                          .width(200.dp)
                                          .height(300.dp)
@@ -252,7 +254,7 @@ fun DetailsFilm(navController: NavController,
                                          )
                                  )
                                  Text(
-                                     text = movie.title,
+                                     text = cast.name,
                                      style = MaterialTheme.typography.titleLarge,
                                      fontSize = 18.sp,
                                      fontWeight = FontWeight.Bold,
@@ -260,7 +262,7 @@ fun DetailsFilm(navController: NavController,
                                      //.padding(top = 2.dp)
                                  )
                                  Text(
-                                     text = movie.release_date,
+                                     text = cast.character,
                                      style = MaterialTheme.typography.titleLarge,
                                      fontSize = 12.sp,
                                      fontWeight = FontWeight.Medium,
@@ -272,11 +274,11 @@ fun DetailsFilm(navController: NavController,
                          }
                      }
                  }
-                  }*/
+                  }
             }
-        }
-        }
-    }
+
+//}
+
 
   //  }
 
