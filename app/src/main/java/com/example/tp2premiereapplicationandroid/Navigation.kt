@@ -1,7 +1,9 @@
 package com.example.tp2premiereapplicationandroid
 
+import android.content.res.Configuration
 import android.util.Log
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -27,6 +29,7 @@ import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SearchBar
+import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.Text
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.runtime.Composable
@@ -56,6 +59,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.modifier.modifierLocalConsumer
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import coil.compose.rememberImagePainter
@@ -145,6 +149,7 @@ fun LeftBarreNavigationChat() {
             .fillMaxHeight()
             .width(100.dp),
         verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         items.forEachIndexed { index, item ->
                 Box(
@@ -154,7 +159,7 @@ fun LeftBarreNavigationChat() {
                 ) {
                     Column (
                         modifier = Modifier
-                            .padding(8.dp),
+                            .padding(start=8.dp),
                         verticalArrangement = Arrangement.Center,
                         horizontalAlignment = Alignment.CenterHorizontally,
                     ) {
@@ -225,6 +230,9 @@ fun BarreRecherche( viewModel: MainViewModel,
     var text by rememberSaveable { mutableStateOf("") }
     var active by rememberSaveable { mutableStateOf(false) }
 
+    val configuration = LocalConfiguration.current
+    val isLandscape = configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
+
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -239,22 +247,90 @@ fun BarreRecherche( viewModel: MainViewModel,
              },
              searchActive = active
          ) */
-        SearchBar(
-            modifier = Modifier
-                .align(Alignment.TopCenter)
-                .semantics { traversalIndex = -1f },
-            query = text,
-            onQueryChange = { text = it },
-            onSearch = {
-                active = false
-                onSearchClick(it)
-            },
-            active = active,
-            onActiveChange = { active = it },
-            placeholder = { Text("Rechercher des films, des séries, des acteurs") },
-            trailingIcon = { Icon(Icons.Default.Search, contentDescription = "Icône de recherche" )},
-        ){
+        if (isLandscape) {
+            Log.d("BarreRecherche", "Mode paysage")
+            FloatingActionButton(
+                onClick = {
+                    onSearchClick(text)
+                },
+                modifier = Modifier
+                    .padding(16.dp)
+                    .background(Color.Black),
 
+            ) {
+                Image(
+                    painterResource(id = R.drawable.baseline_search_24),
+                    contentDescription = "Icône de temps",
+                    modifier = Modifier.size(20.dp),
+                )
+            }
+        } else {
+            Log.d("BarreRecherche", "Mode portrait")
+            SearchBar(
+                modifier = Modifier
+                    .align(Alignment.TopCenter)
+                    .semantics { traversalIndex = -1f },
+                query = text,
+                onQueryChange = { text = it },
+                onSearch = {
+                    active = false
+                    onSearchClick(it)
+                },
+                active = active,
+                onActiveChange = { active = it },
+                placeholder = { Text("Rechercher des films, des séries, des acteurs") },
+                trailingIcon = {
+                    Icon(
+                        Icons.Default.Search,
+                        contentDescription = "Icône de recherche"
+                    )
+                },
+            ) {
+
+            }
         }
     }
 }
+
+/*
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun TopBar(
+    viewModel: MainViewModel,
+    onSearchClick: (text: String) -> Unit,
+){
+    TopAppBar(
+        title={
+            Text(
+                text="Fav'App",
+                style = MaterialTheme.typography.bodyMedium,
+                color= Color.White,)
+        },
+        navigationIcon = {
+            IconButton( onClick = {  }) {
+                Icon(
+                    painter = painterResource(id = R.drawable.baseline_search_24),
+                    contentDescription = "Icône de recherche",
+                    modifier = Modifier
+                        .size(24.dp)
+                )
+            }
+        },
+        actions={
+            IconButton( onClick = {
+                BarreRecherche(viewModel,
+                    onSearchClick = {
+                        viewModel.getFilmsRecherche(query = it) )
+            },
+            }) {
+                Icon(
+                    painter = painterResource(id = R.drawable.baseline_search_24),
+                    contentDescription = "Icône de favoris",
+                    modifier = Modifier
+                        .size(24.dp)
+                )
+            }
+        }
+    )
+        }
+}*/

@@ -324,7 +324,7 @@ fun PresentationFilm(viewModel: MainViewModel, movieid: String){
                         Locale.FRANCE
                     ),
                     style = MaterialTheme.typography.bodyMedium,
-                    fontSize = 20.sp,
+                    fontSize = 18.sp,
                     fontWeight = FontWeight.Light,
                     fontStyle = FontStyle.Italic,
                     color = Color.Gray
@@ -343,7 +343,7 @@ fun PresentationFilm(viewModel: MainViewModel, movieid: String){
                 Text(
                     text = "${films.runtime} minutes",
                     style = MaterialTheme.typography.bodyMedium,
-                    fontSize = 15.sp,
+                    fontSize = 18.sp,
                     fontWeight = FontWeight.Light,
                     color = Color.Gray
                 )
@@ -358,7 +358,7 @@ fun PresentationFilm(viewModel: MainViewModel, movieid: String){
                 Text(
                     text = getGenres(films.genres),
                     style = MaterialTheme.typography.bodyMedium,
-                    fontSize = 15.sp,
+                    fontSize = 18.sp,
                     fontWeight = FontWeight.Light,
                     color = Color.Gray
                 )

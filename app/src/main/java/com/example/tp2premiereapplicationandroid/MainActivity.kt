@@ -62,6 +62,9 @@ class MainActivity : ComponentActivity() {
                         val filmID = backStackEntry.arguments?.getString("filmID") ?: ""
                         DetailsFilm(navController, windowSizeClass, viewModel, filmID)
                     }
+                    composable("Serie"){
+                        Serie(navController, windowSizeClass, viewModel )
+                    }
                 }
             }
             }

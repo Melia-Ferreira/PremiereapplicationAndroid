@@ -64,8 +64,8 @@ import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Film(navController: NavController,
-           windowClass: WindowSizeClass,
+fun Serie(navController: NavController,
+         windowClass: WindowSizeClass,
          viewModel: MainViewModel
 ) {
     when (windowClass.widthSizeClass) {
@@ -98,7 +98,7 @@ fun Film(navController: NavController,
                             .padding(it) // Utilisez contentPadding pour définir la marge intérieure
                             .fillMaxWidth()
                     ) {
-                        ListeFilmsPopulaire(navController, windowClass, viewModel)
+                        ListeSeriesPopulaire(navController, windowClass, viewModel)
                     }
                 }
             )
@@ -107,7 +107,7 @@ fun Film(navController: NavController,
         val isLandscape = configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
         Row(
             verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.Center) {
+            horizontalArrangement = Arrangement.Center) {
             LeftBarreNavigationChat()
             Box(
                 modifier = Modifier
@@ -115,7 +115,7 @@ fun Film(navController: NavController,
                     .fillMaxWidth(),
                 contentAlignment = Alignment.BottomStart
             ) {
-                ListeFilmsPopulaire(navController, windowClass, viewModel, nbColonne = 3)
+                ListeSeriesPopulaire(navController, windowClass, viewModel, nbColonne = 3)
 
                 Log.v("orientation", "orientation:" + configuration.orientation)
                 BarreRecherche(viewModel,
@@ -124,101 +124,101 @@ fun Film(navController: NavController,
                     })
             }
         }
-        }
     }
     }
+}
 
-        /*topBar = {
-             ToolBar(
-             searchQuery = "",
-             onSearchClick = {
-                 viewModel.getFilmsRecherche(query = it)
-             },
-             searchActive = false,
-             viewModel = viewModel) */
-                /*FloatingActionButton(onClick = {
-                    BarreRecherche(
-                        viewModel,
-                        onSearchClick = {
-                            viewModel.getFilmsRecherche(query = it)
-                        } ) }) {
+/*topBar = {
+     ToolBar(
+     searchQuery = "",
+     onSearchClick = {
+         viewModel.getFilmsRecherche(query = it)
+     },
+     searchActive = false,
+     viewModel = viewModel) */
+/*FloatingActionButton(onClick = {
+    BarreRecherche(
+        viewModel,
+        onSearchClick = {
+            viewModel.getFilmsRecherche(query = it)
+        } ) }) {
 
-               }*/ /*
+}*/ /*
                 BarreRecherche(
                     viewModel,
                     onSearchClick = {
                         viewModel.getFilmsRecherche(query = it)
                     })*/
-        /*    },
+/*    },
 
-            bottomBar = {
-                LeftBarreNavigationChat()
-            },
-            content = {
-                Box(
-                    modifier = Modifier
-                        .padding(it) // Utilisez contentPadding pour définir la marge intérieure
-                        .fillMaxWidth()
-                ) {
-                    ListeFilmsPopulaire(navController, windowClass, viewModel)
-                }
-            }
-        )
+    bottomBar = {
+        LeftBarreNavigationChat()
+    },
+    content = {
+        Box(
+            modifier = Modifier
+                .padding(it) // Utilisez contentPadding pour définir la marge intérieure
+                .fillMaxWidth()
+        ) {
+            ListeFilmsPopulaire(navController, windowClass, viewModel)
+        }
     }
-    }
+)
+}
+}
 } */
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ListeFilmsPopulaire(navController: NavController,
+fun ListeSeriesPopulaire(navController: NavController,
                         windowClass: WindowSizeClass,
                         viewmodel: MainViewModel,
                         nbColonne: Int=2) {
 
-    val movies by viewmodel.movies.collectAsState()
+    val series by viewmodel.series.collectAsState()
     LaunchedEffect(true) {
-        viewmodel.getFilmsInitiaux()
+        viewmodel.getSeriesInitiales()
     }
 
-            LazyVerticalGrid(
-                columns = GridCells.Fixed(nbColonne),
-                verticalArrangement = Arrangement.spacedBy(16.dp),
-                horizontalArrangement = Arrangement.spacedBy(16.dp)
-            ) {
-                items(movies) { movie ->
-                    ElevatedCard(
-                        elevation = CardDefaults.cardElevation(
-                            defaultElevation = 6.dp,
-                        ),
-                        onClick = {
-                            navController.navigate("DetailsFilm/${movie.id}")
-                                  },
-                        modifier = Modifier
-                            .width(300.dp)
-                            .height(380.dp)
-                            .padding(8.dp),
-                        colors = CardDefaults.cardColors(
-                            containerColor = Color.White,
-                        )
-                    ){
-                        Box(
-                            modifier = Modifier
-                                .fillMaxSize()
-                            //.height(200.dp)
-                        ) {
+    LazyVerticalGrid(
+        columns = GridCells.Fixed(nbColonne),
+        verticalArrangement = Arrangement.spacedBy(16.dp),
+        horizontalArrangement = Arrangement.spacedBy(16.dp)
+    ) {
+        items(series) { movie ->
+            ElevatedCard(
+                elevation = CardDefaults.cardElevation(
+                    defaultElevation = 6.dp,
+                ),
+                onClick = {
+                   // navController.navigate("DetailsFilm/${movie.id}")
+                },
+                modifier = Modifier
+                    .width(300.dp)
+                    .height(380.dp)
+                    .padding(8.dp),
+                colors = CardDefaults.cardColors(
+                    containerColor = Color.White,
+                )
+            ){
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                    //.height(200.dp)
+                ) {
                     Column(
                         horizontalAlignment = Alignment.CenterHorizontally,
                         verticalArrangement = Arrangement.Center
                     ) {
                         Image(
                             painter = rememberImagePainter(
-                                data = "https://image.tmdb.org/t/p/w780" + movie.poster_path,
+                                data = "https://image.tmdb.org/t/p/w780" + serie.poster_path,
                                 builder = {
                                     crossfade(true)
                                 }
                             ),
-                            contentDescription = "Image du film" + movie.title,
+                            contentDescription = "Image du film" + serie.original_name,
                             modifier = Modifier
                                 .width(200.dp)
                                 .height(300.dp)
@@ -230,16 +230,16 @@ fun ListeFilmsPopulaire(navController: NavController,
                                 )
                         )
                         Text(
-                            text = movie.title,
+                            text = serie.title,
                             style = MaterialTheme.typography.titleLarge,
                             fontSize = 18.sp,
                             fontWeight = FontWeight.Bold,
                             modifier = Modifier
-                                //.padding(top = 2.dp)
+                            //.padding(top = 2.dp)
                         )
                         Text(
                             text = formatDate(
-                                movie.release_date,
+                                serie.release_date,
                                 "yyyy-MM-dd",
                                 "dd-MM-yyyy",
                                 Locale.FRANCE
@@ -248,7 +248,7 @@ fun ListeFilmsPopulaire(navController: NavController,
                             fontSize = 12.sp,
                             fontWeight = FontWeight.Medium,
                             modifier = Modifier
-                                //.padding(top = 2.dp)
+                            //.padding(top = 2.dp)
                         )
 
                     }
