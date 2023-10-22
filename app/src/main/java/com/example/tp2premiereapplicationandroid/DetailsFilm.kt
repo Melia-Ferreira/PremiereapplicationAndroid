@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -55,6 +56,7 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.ParagraphStyle
 import androidx.compose.ui.text.font.FontStyle
@@ -88,80 +90,19 @@ fun DetailsFilm(navController: NavController,
     LazyColumn(
     ) {
         item {
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Top,
-            ){
-                Image(
-                    painter = rememberImagePainter(
-                        data = "https://image.tmdb.org/t/p/w500" + films.backdrop_path,
-                        builder = {
-                            crossfade(true)
-                            size(800,400)
-                        }
-                    ),
-                    contentDescription = "Image du film" + films.original_title,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .alpha(0.8f)
-                )
-                Text(
-                    text = films.original_title,
-                    style = MaterialTheme.typography.titleLarge,
-                    fontSize = 40.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = Color.Black,
-                    textAlign = TextAlign.Center,
-                )
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(210.dp)
+                    .padding(bottom=15.dp),
+                contentAlignment = Alignment.BottomCenter
+            ) {
+                Affiche(viewModel, movieid)
+                Titre(viewModel, movieid)
             }
         }
         item {
-            Row(
-                //Modifier.fillMaxSize(),
-                verticalAlignment = Alignment.Top,
-                horizontalArrangement = Arrangement.Center
-            ) {
-                Image(
-                    painter = rememberImagePainter(
-                        data = "https://image.tmdb.org/t/p/w500" + films.poster_path,
-                        builder = {
-                            crossfade(true)
-                            size(400, 300)
-                        }
-                    ),
-                    contentDescription = "Affiche du film" + films.original_title,
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier
-                        .padding(start = 15.dp, end = 20.dp, bottom = 15.dp)
-                        .clip(RoundedCornerShape(16.dp))
-                )
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Top,
-                    modifier = Modifier
-                        .padding(end = 15.dp)
-                ) {
-                    Text(
-                        text = "sorti le " + formatDate(
-                            films.release_date,
-                            "yyyy-MM-dd",
-                            "d MMMM yyyy",
-                            Locale.FRANCE
-                        ),
-                        style = MaterialTheme.typography.bodyMedium,
-                        fontSize = 20.sp,
-                        fontWeight = FontWeight.Light,
-                        fontStyle = FontStyle.Italic,
-                        color = Color.Gray
-                    )
-                    Text(
-                        text = getGenres(films.genres),
-                        style = MaterialTheme.typography.bodyMedium,
-                        fontSize = 15.sp,
-                        fontWeight = FontWeight.Light,
-                    )
-                }
-            }
+            PresentationFilm(viewModel, movieid)
         }
         item {
             Column(
@@ -201,81 +142,90 @@ fun DetailsFilm(navController: NavController,
                 fontSize = 30.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color.Black,
+                modifier = Modifier
+                    .padding(start = 20.dp, end = 15.dp, top = 15.dp)
             )
         }
 
-                /*LazyVerticalGrid(
+        /*LazyVerticalGrid(
                  columns = GridCells.Fixed(2),
                  verticalArrangement = Arrangement.spacedBy(16.dp),
                  horizontalArrangement = Arrangement.spacedBy(16.dp)
              ) {*/
 
-                 items(films.credits.cast) { cast ->
-                     ElevatedCard(
-                         elevation = CardDefaults.cardElevation(
-                             defaultElevation = 6.dp,
-                         ),
-                         onClick = {
-                             navController.navigate("DetailsPersonne/${cast.id}")
-                         },
-                         modifier = Modifier
-                             .width(300.dp)
-                             .height(380.dp)
-                             .padding(8.dp),
-                         colors = CardDefaults.cardColors(
-                             containerColor = Color.White,
-                         )
-                     ) {
-                         Box(
-                             modifier = Modifier
-                                 .fillMaxSize()
-                             //.height(200.dp)
-                         ) {
-                             Column(
-                                 horizontalAlignment = Alignment.CenterHorizontally,
-                                 verticalArrangement = Arrangement.Center
-                             ) {
-                                 Image(
-                                     painter = rememberImagePainter(
-                                         data = "https://image.tmdb.org/t/p/w780" + cast.profile_path,
-                                         builder = {
-                                             crossfade(true)
-                                         }
-                                     ),
-                                     contentDescription = "Image" + cast.name,
-                                     modifier = Modifier
-                                         .width(200.dp)
-                                         .height(300.dp)
-                                         .padding(
-                                             start = 8.dp,
-                                             top = 8.dp,
-                                             end = 8.dp,
-                                             bottom = 0.dp
-                                         )
-                                 )
-                                 Text(
-                                     text = cast.name,
-                                     style = MaterialTheme.typography.titleLarge,
-                                     fontSize = 18.sp,
-                                     fontWeight = FontWeight.Bold,
-                                     modifier = Modifier
-                                     //.padding(top = 2.dp)
-                                 )
-                                 Text(
-                                     text = cast.character,
-                                     style = MaterialTheme.typography.titleLarge,
-                                     fontSize = 12.sp,
-                                     fontWeight = FontWeight.Medium,
-                                     modifier = Modifier
-                                     //.padding(top = 2.dp)
-                                 )
+        items(films.credits.cast) { cast ->
+           /* LazyVerticalGrid(
+                columns = GridCells.Fixed(2),
+                verticalArrangement = Arrangement.spacedBy(16.dp),
+                horizontalArrangement = Arrangement.spacedBy(16.dp)
+            ) { */
+            ElevatedCard(
+                    elevation = CardDefaults.cardElevation(
+                        defaultElevation = 6.dp,
+                    ),
+                    onClick = {
+                        navController.navigate("DetailsPersonne/${cast.id}")
+                    },
+                    modifier = Modifier
+                        .width(210.dp)
+                        .height(380.dp)
+                        .padding(8.dp),
+                    colors = CardDefaults.cardColors(
+                        containerColor = Color.White,
+                    )
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .fillMaxHeight()
+                        //.height(200.dp)
+                    ) {
+                        Column(
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            verticalArrangement = Arrangement.Center
+                        ) {
+                            Image(
+                                painter = rememberImagePainter(
+                                    data = "https://image.tmdb.org/t/p/w780" + cast.profile_path,
+                                    builder = {
+                                        crossfade(true)
+                                    }
+                                ),
+                                contentDescription = "Image" + cast.name,
+                                modifier = Modifier
+                                    .width(200.dp)
+                                    .height(300.dp)
+                                    .padding(
+                                        start = 8.dp,
+                                        top = 8.dp,
+                                        end = 8.dp,
+                                        bottom = 0.dp
+                                    )
+                            )
+                            Text(
+                                text = cast.name,
+                                style = MaterialTheme.typography.titleLarge,
+                                fontSize = 18.sp,
+                                fontWeight = FontWeight.Bold,
+                                modifier = Modifier
+                                //.padding(top = 2.dp)
+                            )
+                            Text(
+                                text = cast.character,
+                                style = MaterialTheme.typography.titleLarge,
+                                fontSize = 12.sp,
+                                fontWeight = FontWeight.Medium,
+                                modifier = Modifier
+                                //.padding(top = 2.dp)
+                            )
 
-                             }
-                         }
-                     }
-                 }
-                  }
+                        }
+                    }
+                }
             }
+        }
+    }
+
 
 //}
 
@@ -283,6 +233,144 @@ fun DetailsFilm(navController: NavController,
   //  }
 
 //}
+
+@Composable
+fun Affiche(viewModel: MainViewModel, movieid: String){
+    val films by viewModel.film.collectAsState()
+    LaunchedEffect(true) {
+        viewModel.getDetailFilm(movieid)
+    }
+        Image(
+            painter = rememberImagePainter(
+                data = "https://image.tmdb.org/t/p/w500" + films.backdrop_path,
+                builder = {
+                    crossfade(true)
+                    //size(800, 400)
+                }
+            ),
+            contentDescription = "Image du film" + films.original_title,
+            modifier = Modifier
+                .fillMaxWidth()
+                .alpha(0.8f)
+                .height(200.dp)
+
+        )
+
+    }
+
+@Composable
+fun Titre(viewModel: MainViewModel, movieid: String){
+    val films by viewModel.film.collectAsState()
+    LaunchedEffect(true) {
+        viewModel.getDetailFilm(movieid)
+    }
+    Text(
+        text = films.original_title,
+        style = MaterialTheme.typography.titleLarge,
+        fontSize = 35.sp,
+        fontWeight = FontWeight.Bold,
+        color = Color.White,
+        textAlign = TextAlign.Center,
+    )
+}
+
+@Composable
+fun PresentationFilm(viewModel: MainViewModel, movieid: String){
+    val films by viewModel.film.collectAsState()
+    LaunchedEffect(true) {
+        viewModel.getDetailFilm(movieid)
+    }
+    Row(
+        //Modifier.fillMaxSize(),
+        verticalAlignment = Alignment.Top,
+        horizontalArrangement = Arrangement.Center
+    ) {
+        Image(
+            painter = rememberImagePainter(
+                data = "https://image.tmdb.org/t/p/w500" + films.poster_path,
+                builder = {
+                    crossfade(true)
+                    size(400, 300)
+                }
+            ),
+            contentDescription = "Affiche du film" + films.original_title,
+            contentScale = ContentScale.Crop,
+            modifier = Modifier
+                .padding(start = 15.dp, end = 20.dp, bottom = 15.dp)
+                .clip(RoundedCornerShape(16.dp))
+        )
+        Column(
+            horizontalAlignment = Alignment.Start,
+            verticalArrangement = Arrangement.Top,
+            modifier = Modifier
+                .padding(end = 15.dp)
+        ) {
+            Row(
+                modifier= Modifier
+                    .padding(bottom=15.dp)
+            ) {
+                Image(
+                    painterResource(id = R.drawable.baseline_calendar_month_24),
+                    contentDescription = "Icône de calendrier",
+                    modifier = Modifier.size(20.dp)
+
+                )
+                Spacer(modifier = Modifier.width(10.dp))
+                Text(
+                    text = "sorti le " + formatDate(
+                        films.release_date,
+                        "yyyy-MM-dd",
+                        "d MMMM yyyy",
+                        Locale.FRANCE
+                    ),
+                    style = MaterialTheme.typography.bodyMedium,
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Light,
+                    fontStyle = FontStyle.Italic,
+                    color = Color.Gray
+                )
+            }
+            Row(
+                modifier= Modifier
+                    .padding(bottom=15.dp)
+            ) {
+                Image(
+                    painterResource(id = R.drawable.baseline_hourglass_top_24),
+                    contentDescription = "Icône de temps",
+                    modifier = Modifier.size(20.dp)
+                )
+                Spacer(modifier = Modifier.width(10.dp))
+                Text(
+                    text = "${films.runtime} minutes",
+                    style = MaterialTheme.typography.bodyMedium,
+                    fontSize = 15.sp,
+                    fontWeight = FontWeight.Light,
+                    color = Color.Gray
+                )
+            }
+            Row() {
+                Image(
+                    painterResource(id = R.drawable.baseline_theater_comedy_24),
+                    contentDescription = "Icône de temps",
+                    modifier = Modifier.size(20.dp)
+                )
+                Spacer(modifier = Modifier.width(10.dp))
+                Text(
+                    text = getGenres(films.genres),
+                    style = MaterialTheme.typography.bodyMedium,
+                    fontSize = 15.sp,
+                    fontWeight = FontWeight.Light,
+                    color = Color.Gray
+                )
+            }
+        }
+    }
+
+}
+
+
+
+
 
 @Composable
 fun getGenres(genres: List<Genre>): String {
