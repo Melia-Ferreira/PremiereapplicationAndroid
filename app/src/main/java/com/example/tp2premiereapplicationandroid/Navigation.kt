@@ -64,7 +64,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import coil.compose.rememberImagePainter
 @Composable
-fun BarreNavigation() {
+fun BarreNavigation(navController: NavController) {
     var selectedItem by remember { mutableIntStateOf(0) }
     val items = listOf("Films", "Séries", "Acteurs")
     val icons = listOf(
@@ -79,7 +79,9 @@ fun BarreNavigation() {
                 icon = { Image(painter = icons[index], contentDescription = "Icône de film") },
                 label = { Text(item) },
                 selected = selectedItem == index,
-                onClick = { selectedItem = index }
+                onClick = { selectedItem = index
+                    navController.navigate(item)
+                }
             )
         }
     }
