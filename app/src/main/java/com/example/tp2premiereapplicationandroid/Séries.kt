@@ -40,15 +40,12 @@ import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Serie(navController: NavController,
+fun Séries(navController: NavController,
          windowClass: WindowSizeClass,
          viewModel: MainViewModel
 ) {
     when (windowClass.widthSizeClass) {
         WindowWidthSizeClass.Compact -> {
-            val configuration = LocalConfiguration.current
-            val isLandscape = configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
-            Log.v("orientation", "orientation:" + configuration.orientation)
             Scaffold(
                 topBar = {
                     /* ToolBar(
@@ -79,8 +76,6 @@ fun Serie(navController: NavController,
                 }
             )
         } else -> {
-        val configuration = LocalConfiguration.current
-        val isLandscape = configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
         Row(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center) {
@@ -93,8 +88,7 @@ fun Serie(navController: NavController,
             ) {
                 ListeSeriesPopulaire(navController, windowClass, viewModel, nbColonne = 3)
 
-                Log.v("orientation", "orientation:" + configuration.orientation)
-                BarreRecherche(viewModel,
+                BarreRecherchePaysage(viewModel,
                     onSearchClick = {
                         viewModel.getSeriesRecherche(query = it)
                     })

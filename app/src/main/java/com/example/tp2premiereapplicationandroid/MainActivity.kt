@@ -50,20 +50,24 @@ class MainActivity : ComponentActivity() {
 
                 NavHost(
                     navController = navController,
-                    startDestination = "Film"
+                    startDestination = "Films"
                 ){
                     composable("Profil"){
                         Profil(navController, windowSizeClass)
                     }
-                    composable("Film"){
-                        Film(navController, windowSizeClass, viewModel )
+                    composable("Films"){
+                        Films(navController, windowSizeClass, viewModel )
                     }
                     composable("DetailsFilm/{filmID}"){ backStackEntry ->
                         val filmID = backStackEntry.arguments?.getString("filmID") ?: ""
                         DetailsFilm(navController, windowSizeClass, viewModel, filmID)
                     }
-                    composable("Serie"){
-                        Serie(navController, windowSizeClass, viewModel )
+                    composable("Séries"){
+                        Séries(navController, windowSizeClass, viewModel )
+                    }
+                    composable("DetailsSerie/{serieID}"){ backStackEntry ->
+                        val serieID = backStackEntry.arguments?.getString("serieID") ?: ""
+                        DetailsSerie(navController, windowSizeClass, viewModel, serieID)
                     }
                 }
             }

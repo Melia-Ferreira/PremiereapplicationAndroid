@@ -40,7 +40,7 @@ import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Film(navController: NavController,
+fun Films(navController: NavController,
            windowClass: WindowSizeClass,
          viewModel: MainViewModel
 ) {

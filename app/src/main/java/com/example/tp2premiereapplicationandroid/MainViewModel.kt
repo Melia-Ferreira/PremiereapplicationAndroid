@@ -30,7 +30,7 @@ class MainViewModel(
 
     fun getFilmsInitiaux() {
         viewModelScope.launch {
-            movies.value = service.getFilmAffiche(apikey).results
+            movies.value = service.getFilmAffiche(apikey,"fr").results
 
             //   Log.v("xxx","taille:" + movies.value.size)
         }
@@ -38,7 +38,7 @@ class MainViewModel(
 
     fun getFilmsRecherche(query: String) {
         viewModelScope.launch {
-            movies.value = service.getFilmRecherche(query, apikey).results
+            movies.value = service.getFilmRecherche(query, apikey,"fr").results
             Log.v("xxx", "taille:" + movies.value.size)
             Log.v("xxx", "taille:" + movies.value[0].title)
         }
@@ -53,18 +53,18 @@ class MainViewModel(
 
     fun getSeriesInitiales() {
         viewModelScope.launch {
-            series.value = service.getSerieAffiche(apikey).results
+            series.value = service.getSerieAffiche(apikey, "fr").results
 
             //   Log.v("xxx","taille:" + movies.value.size)
         }
     }
     fun getSeriesRecherche(query: String) {
         viewModelScope.launch {
-            series.value = service.getSerieRecherche(query, apikey).results
+            series.value = service.getSerieRecherche(query, apikey, "fr").results
         }
     }
 
-    fun getSerieFilm(serieid: String) {
+    fun getDetailSerie(serieid: String) {
         viewModelScope.launch {
             serie.value = service.getSerieDetail(serieid, apikey, "fr")
         }
