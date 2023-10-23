@@ -61,7 +61,7 @@ fun Serie(navController: NavController,
                     BarreRecherche(
                         viewModel,
                         onSearchClick = {
-                            viewModel.getFilmsRecherche(query = it)
+                            viewModel.getSeriesRecherche(query = it)
                         })
                 },
 
@@ -84,7 +84,7 @@ fun Serie(navController: NavController,
         Row(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center) {
-            LeftBarreNavigationChat()
+            BarreNavigationPaysage()
             Box(
                 modifier = Modifier
                     .padding(10.dp)
@@ -96,54 +96,13 @@ fun Serie(navController: NavController,
                 Log.v("orientation", "orientation:" + configuration.orientation)
                 BarreRecherche(viewModel,
                     onSearchClick = {
-                        viewModel.getFilmsRecherche(query = it)
+                        viewModel.getSeriesRecherche(query = it)
                     })
             }
         }
     }
     }
 }
-
-/*topBar = {
-     ToolBar(
-     searchQuery = "",
-     onSearchClick = {
-         viewModel.getFilmsRecherche(query = it)
-     },
-     searchActive = false,
-     viewModel = viewModel) */
-/*FloatingActionButton(onClick = {
-    BarreRecherche(
-        viewModel,
-        onSearchClick = {
-            viewModel.getFilmsRecherche(query = it)
-        } ) }) {
-
-}*/ /*
-                BarreRecherche(
-                    viewModel,
-                    onSearchClick = {
-                        viewModel.getFilmsRecherche(query = it)
-                    })*/
-/*    },
-
-    bottomBar = {
-        LeftBarreNavigationChat()
-    },
-    content = {
-        Box(
-            modifier = Modifier
-                .padding(it) // Utilisez contentPadding pour définir la marge intérieure
-                .fillMaxWidth()
-        ) {
-            ListeFilmsPopulaire(navController, windowClass, viewModel)
-        }
-    }
-)
-}
-}
-} */
-
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -168,7 +127,7 @@ fun ListeSeriesPopulaire(navController: NavController,
                     defaultElevation = 6.dp,
                 ),
                 onClick = {
-                   // navController.navigate("DetailsFilm/${movie.id}")
+                   navController.navigate("DetailsSerie/${serie.id}")
                 },
                 modifier = Modifier
                     .width(300.dp)
@@ -206,7 +165,7 @@ fun ListeSeriesPopulaire(navController: NavController,
                                 )
                         )
                         Text(
-                            text = serie.original_name,
+                            text = serie.original_name.takeWhile { it != ':' },
                             style = MaterialTheme.typography.titleLarge,
                             fontSize = 18.sp,
                             fontWeight = FontWeight.Bold,

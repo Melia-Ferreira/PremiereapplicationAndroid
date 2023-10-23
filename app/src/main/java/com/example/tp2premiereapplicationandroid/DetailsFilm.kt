@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
@@ -51,6 +52,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
@@ -81,85 +83,162 @@ fun DetailsFilm(navController: NavController,
     LaunchedEffect(true) {
         viewModel.getDetailFilm(movieid)
     }
-    /*Text(
-        text = "Details du film",
-        style = MaterialTheme.typography.titleLarge,
-        fontSize = 40.sp,
-        fontWeight = FontWeight.Bold
-    )*/
-    LazyColumn(
-    ) {
-        item {
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(210.dp)
-                    .padding(bottom=15.dp),
-                contentAlignment = Alignment.BottomCenter
-            ) {
-                Affiche(viewModel, movieid)
-                Titre(viewModel, movieid)
-            }
-        }
-        item {
-            PresentationFilm(viewModel, movieid)
-        }
-        item {
-            Column(
-                horizontalAlignment = Alignment.Start,
-                verticalArrangement = Arrangement.Top,
-                modifier = Modifier
-                    .padding(start = 20.dp, end = 15.dp)
-            ) {
-                Text(
-                    text = "Synopsis",
-                    style = MaterialTheme.typography.titleMedium,
-                    fontSize = 30.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = Color.Black,
-                )
-                Text(
-                    text = films.overview,
-                    style = MaterialTheme.typography.bodyMedium,
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.Normal,
-                    color = Color.Black,
-                )
-
-            }
-        }
-        item {
-            /* if(films.credits.cast.isNotEmpty()){
-            Column(
-                horizontalAlignment = Alignment.Start,
-                verticalArrangement = Arrangement.Top,
-                modifier = Modifier
-                    .padding(start = 20.dp, end = 15.dp, top=15.dp)
-            ) {*/
-            Text(
-                text = "Têtes d'affiche",
-                style = MaterialTheme.typography.titleMedium,
-                fontSize = 30.sp,
-                fontWeight = FontWeight.Bold,
-                color = Color.Black,
-                modifier = Modifier
-                    .padding(start = 20.dp, end = 15.dp, top = 15.dp)
-            )
-        }
-
-        /*LazyVerticalGrid(
-                 columns = GridCells.Fixed(2),
-                 verticalArrangement = Arrangement.spacedBy(16.dp),
-                 horizontalArrangement = Arrangement.spacedBy(16.dp)
-             ) {*/
-
-        items(films.credits.cast) { cast ->
-           /* LazyVerticalGrid(
+    when (windowClass.widthSizeClass) {
+        WindowWidthSizeClass.Compact -> {
+            LazyVerticalGrid(
                 columns = GridCells.Fixed(2),
                 verticalArrangement = Arrangement.spacedBy(16.dp),
                 horizontalArrangement = Arrangement.spacedBy(16.dp)
-            ) { */
-            ElevatedCard(
+            ) {
+                item(span = {
+                    GridItemSpan(2)
+                }) {
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(210.dp)
+                                .padding(bottom = 15.dp),
+                            contentAlignment = Alignment.BottomCenter
+                        ) {
+                            Affiche(viewModel, movieid)
+                            Text(
+                                text = films.original_title,
+                                style = MaterialTheme.typography.titleLarge,
+                                fontSize = 35.sp,
+                                fontWeight = FontWeight.Bold,
+                                color = Color.White,
+                                textAlign = TextAlign.Center,
+                            )
+                        }
+                    }
+                item(span = {
+                    GridItemSpan(2)
+                }) {
+                    Row(
+                        //Modifier.fillMaxSize(),
+                        verticalAlignment = Alignment.Top,
+                        horizontalArrangement = Arrangement.Center,
+                    ) {
+                        PresentationFilm(viewModel, movieid)
+                    }
+                }
+                item(span = {
+                    GridItemSpan(2)
+                }) {
+                    Synopsis(viewModel, movieid)
+                }
+                item(span = {
+                    GridItemSpan(2)
+                }) {
+                    TeteAffiche()
+                }
+                items(films.credits.cast) { cast ->
+                    ElevatedCard(
+                        elevation = CardDefaults.cardElevation(
+                            defaultElevation = 6.dp,
+                        ),
+                        onClick = {
+                            navController.navigate("DetailsPersonne/${cast.id}")
+                        },
+                        modifier = Modifier
+                            .width(210.dp)
+                            .height(380.dp)
+                            .padding(8.dp),
+                        colors = CardDefaults.cardColors(
+                            containerColor = Color.White,
+                        )
+                    ) {
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .fillMaxHeight()
+                            //.height(200.dp)
+                        ) {
+                            Column(
+                                horizontalAlignment = Alignment.CenterHorizontally,
+                                verticalArrangement = Arrangement.Center
+                            ) {
+                                Image(
+                                    painter = rememberImagePainter(
+                                        data = "https://image.tmdb.org/t/p/w780" + cast.profile_path,
+                                        builder = {
+                                            crossfade(true)
+                                        }
+                                    ),
+                                    contentDescription = "Image" + cast.name,
+                                    modifier = Modifier
+                                        .width(200.dp)
+                                        .height(300.dp)
+                                        .padding(
+                                            start = 8.dp,
+                                            top = 8.dp,
+                                            end = 8.dp,
+                                            bottom = 0.dp
+                                        )
+                                )
+                                Text(
+                                    text = cast.name,
+                                    style = MaterialTheme.typography.titleLarge,
+                                    fontSize = 18.sp,
+                                    fontWeight = FontWeight.Bold,
+                                    modifier = Modifier
+                                    //.padding(top = 2.dp)
+                                )
+                                Text(
+                                    text = cast.character,
+                                    style = MaterialTheme.typography.titleLarge,
+                                    fontSize = 12.sp,
+                                    fontWeight = FontWeight.Medium,
+                                    modifier = Modifier
+                                    //.padding(top = 2.dp)
+                                )
+
+                            }
+                        }
+                    }
+                }
+            }
+        } else -> {
+        LazyVerticalGrid(
+            columns = GridCells.Fixed(4),
+            verticalArrangement = Arrangement.spacedBy(16.dp),
+            horizontalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            item(span = {
+                GridItemSpan(4)
+            }) {
+                Text(
+                    text = films.original_title,
+                    style = MaterialTheme.typography.titleLarge,
+                    fontSize = 35.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Color.Black,
+                    textAlign = TextAlign.Center,
+                )
+                }
+            item(span = {
+                GridItemSpan(4)
+            }) {
+                Row(
+                    //Modifier.fillMaxSize(),
+                    verticalAlignment = Alignment.Top,
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    PresentationFilm(viewModel, movieid)
+                }
+            }
+            item(span = {
+                GridItemSpan(4)
+            }) {
+                Synopsis(viewModel, movieid)
+            }
+            item(span = {
+                GridItemSpan(4)
+            }) {
+                TeteAffiche()
+            }
+            items(films.credits.cast) { cast ->
+                ElevatedCard(
                     elevation = CardDefaults.cardElevation(
                         defaultElevation = 6.dp,
                     ),
@@ -167,7 +246,7 @@ fun DetailsFilm(navController: NavController,
                         navController.navigate("DetailsPersonne/${cast.id}")
                     },
                     modifier = Modifier
-                        .width(210.dp)
+                        .width(150.dp)
                         .height(380.dp)
                         .padding(8.dp),
                     colors = CardDefaults.cardColors(
@@ -176,8 +255,7 @@ fun DetailsFilm(navController: NavController,
                 ) {
                     Box(
                         modifier = Modifier
-                            .fillMaxWidth()
-                            .fillMaxHeight()
+                            .fillMaxSize()
                         //.height(200.dp)
                     ) {
                         Column(
@@ -213,7 +291,7 @@ fun DetailsFilm(navController: NavController,
                             Text(
                                 text = cast.character,
                                 style = MaterialTheme.typography.titleLarge,
-                                fontSize = 12.sp,
+                                fontSize = 15.sp,
                                 fontWeight = FontWeight.Medium,
                                 modifier = Modifier
                                 //.padding(top = 2.dp)
@@ -223,7 +301,11 @@ fun DetailsFilm(navController: NavController,
                     }
                 }
             }
-        }
+            }
+    }
+
+
+    }
     }
 
 
@@ -264,14 +346,6 @@ fun Titre(viewModel: MainViewModel, movieid: String){
     LaunchedEffect(true) {
         viewModel.getDetailFilm(movieid)
     }
-    Text(
-        text = films.original_title,
-        style = MaterialTheme.typography.titleLarge,
-        fontSize = 35.sp,
-        fontWeight = FontWeight.Bold,
-        color = Color.White,
-        textAlign = TextAlign.Center,
-    )
 }
 
 @Composable
@@ -280,11 +354,7 @@ fun PresentationFilm(viewModel: MainViewModel, movieid: String){
     LaunchedEffect(true) {
         viewModel.getDetailFilm(movieid)
     }
-    Row(
-        //Modifier.fillMaxSize(),
-        verticalAlignment = Alignment.Top,
-        horizontalArrangement = Arrangement.Center
-    ) {
+
         Image(
             painter = rememberImagePainter(
                 data = "https://image.tmdb.org/t/p/w500" + films.poster_path,
@@ -366,11 +436,49 @@ fun PresentationFilm(viewModel: MainViewModel, movieid: String){
         }
     }
 
+
+@Composable
+fun Synopsis(viewModel: MainViewModel, movieid: String){
+    val films by viewModel.film.collectAsState()
+    LaunchedEffect(true) {
+        viewModel.getDetailFilm(movieid)
+    }
+    Column(
+        horizontalAlignment = Alignment.Start,
+        verticalArrangement = Arrangement.Top,
+        modifier = Modifier
+            .padding(start = 20.dp, end = 15.dp)
+    ) {
+        Text(
+            text = "Synopsis",
+            style = MaterialTheme.typography.titleMedium,
+            fontSize = 30.sp,
+            fontWeight = FontWeight.Bold,
+            color = Color.Black,
+        )
+        Text(
+            text = films.overview,
+            style = MaterialTheme.typography.bodyMedium,
+            fontSize = 20.sp,
+            fontWeight = FontWeight.Normal,
+            color = Color.Black,
+        )
+
+    }
 }
 
-
-
-
+@Composable
+fun TeteAffiche(){
+    Text(
+        text = "Têtes d'affiche",
+        style = MaterialTheme.typography.titleMedium,
+        fontSize = 30.sp,
+        fontWeight = FontWeight.Bold,
+        color = Color.Black,
+        modifier = Modifier
+            .padding(start = 20.dp, end = 15.dp, top = 15.dp)
+    )
+}
 
 @Composable
 fun getGenres(genres: List<Genre>): String {

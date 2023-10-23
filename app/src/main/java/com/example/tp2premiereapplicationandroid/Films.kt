@@ -46,9 +46,9 @@ fun Film(navController: NavController,
 ) {
     when (windowClass.widthSizeClass) {
         WindowWidthSizeClass.Compact -> {
-            val configuration = LocalConfiguration.current
-            val isLandscape = configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
-            Log.v("orientation", "orientation:" + configuration.orientation)
+            //val configuration = LocalConfiguration.current
+            //val isLandscape = configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
+          //  Log.v("orientation", "orientation:" + configuration.orientation)
             Scaffold(
                 topBar = {
                     /* ToolBar(
@@ -84,17 +84,17 @@ fun Film(navController: NavController,
         Row(
             verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center) {
-            LeftBarreNavigationChat()
+            BarreNavigationPaysage()
             Box(
                 modifier = Modifier
                     .padding(10.dp)
                     .fillMaxWidth(),
-                contentAlignment = Alignment.BottomStart
+                contentAlignment = Alignment.BottomEnd
             ) {
                 ListeFilmsPopulaire(navController, windowClass, viewModel, nbColonne = 3)
 
                 Log.v("orientation", "orientation:" + configuration.orientation)
-                BarreRecherche(viewModel,
+                BarreRecherchePaysage(viewModel,
                     onSearchClick = {
                         viewModel.getFilmsRecherche(query = it)
                     })
