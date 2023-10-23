@@ -18,6 +18,10 @@ class MainViewModel(
     val series = MutableStateFlow<List<Serie>>(listOf())
     val film = MutableStateFlow<FilmDetail>(FilmDetail())
     val serie = MutableStateFlow<SerieDetail>(SerieDetail())
+    val acteurs = MutableStateFlow<List<Acteur>>(listOf())
+    val acteur = MutableStateFlow<ActeurDetail>(ActeurDetail())
+   // val filmo = MutableStateFlow<Filmographie>(listOf())
+
    // private val filmID: String? = savedStateHandle["filmID"]
 
     val apikey = "d99da6596d7cad8888832ecc40a57d4b"
@@ -69,4 +73,30 @@ class MainViewModel(
             serie.value = service.getSerieDetail(serieid, apikey, "fr")
         }
     }
+
+    fun getActeursPopulaires() {
+        viewModelScope.launch {
+            acteurs.value = service.getActeurPopulaire(apikey, "fr").results
+
+            //   Log.v("xxx","taille:" + movies.value.size)
+        }
+    }
+
+    fun getActeursRecherche(query: String) {
+        viewModelScope.launch {
+            acteurs.value = service.getActeurRecherche(query, apikey, "fr").results
+        }
+    }
+
+    fun getDetailActeur(acteurid: String) {
+        viewModelScope.launch {
+            acteur.value = service.getActeurDetail(acteurid, apikey, "fr")
+        }
+    }
+
+    /*fun getFilmographieActeur(acteurid: String) {
+        viewModelScope.launch {
+            filmo.value = service.getFilmographie(acteurid, apikey, "fr")
+        }
+    }*/
 }

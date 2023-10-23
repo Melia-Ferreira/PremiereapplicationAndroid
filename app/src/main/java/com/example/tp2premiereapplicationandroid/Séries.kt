@@ -79,7 +79,7 @@ fun Séries(navController: NavController,
         Row(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center) {
-            BarreNavigationPaysage()
+            BarreNavigationPaysage(navController)
             Box(
                 modifier = Modifier
                     .padding(10.dp)
@@ -128,7 +128,7 @@ fun ListeSeriesPopulaire(navController: NavController,
                     .height(380.dp)
                     .padding(8.dp),
                 colors = CardDefaults.cardColors(
-                    containerColor = Color.White,
+                    containerColor = Color(0xFF142949),
                 )
             ){
                 Box(
@@ -163,8 +163,7 @@ fun ListeSeriesPopulaire(navController: NavController,
                             style = MaterialTheme.typography.titleLarge,
                             fontSize = 18.sp,
                             fontWeight = FontWeight.Bold,
-                            modifier = Modifier
-                            //.padding(top = 2.dp)
+                            color = Color.White
                         )
                         Text(
                             text = formatDate(
@@ -176,8 +175,7 @@ fun ListeSeriesPopulaire(navController: NavController,
                             style = MaterialTheme.typography.titleLarge,
                             fontSize = 12.sp,
                             fontWeight = FontWeight.Medium,
-                            modifier = Modifier
-                            //.padding(top = 2.dp)
+                            color = Color.White
                         )
 
                     }

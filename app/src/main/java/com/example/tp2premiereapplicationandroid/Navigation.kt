@@ -66,56 +66,7 @@ fun BarreNavigation(navController: NavController) {
 }
 
 @Composable
-fun LeftBarreNavigation() {
-    var selectedItem by remember { mutableIntStateOf(0) }
-    val items = listOf("Films", "Séries", "Acteurs")
-    val icons = listOf(
-        painterResource(id = R.drawable.baseline_movie_creation_24),
-        painterResource(id = R.drawable.baseline_tv_24),
-        painterResource(id = R.drawable.baseline_person_24)
-    )
-
-    NavigationBar {
-        Column(
-            modifier = Modifier
-                .fillMaxHeight(),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            items.forEachIndexed { index, item ->
-                Box(
-                    modifier = Modifier
-                        .fillMaxHeight()
-                        .clickable(onClick = { selectedItem = index })
-                ) {
-                    Icon(
-                        painter = icons[index],
-                        contentDescription = "Icône",
-                        modifier = Modifier
-                            .height(50.dp)
-                            .width(50.dp),
-                        /*icon = { Image(painter = icons[index], contentDescription = "Icône de film") },
-                        label = { Text(item) },
-                        selected = selectedItem == index,
-                        onClick = { selectedItem = index }*/
-                    )
-                    Text(
-                        text=item,
-                        style = MaterialTheme.typography.bodyMedium,
-                        fontSize = 15.sp,
-                        modifier = Modifier
-                            .padding(top = 5.dp),
-                        textAlign= TextAlign.Center
-                    )
-                }
-
-            }
-        }
-    }
-}
-
-@Composable
-fun BarreNavigationPaysage() {
+fun BarreNavigationPaysage(navController: NavController) {
     var selectedItem by remember { mutableStateOf(0) }
     val items = listOf("Films", "Séries", "Acteurs")
     val icons = listOf(
@@ -135,7 +86,8 @@ fun BarreNavigationPaysage() {
                 Box(
                     modifier = Modifier
                         .padding(8.dp)
-                        .clickable(onClick = { selectedItem = index })
+                        .clickable(onClick = { selectedItem = index
+                            navController.navigate(item)})
                 ) {
                     Column (
                         modifier = Modifier

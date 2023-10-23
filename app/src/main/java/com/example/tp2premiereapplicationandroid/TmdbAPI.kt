@@ -29,4 +29,22 @@ interface TmdbAPI {
     //requête détails d'une série
     @GET("tv/{id}?append_to_response=credits")
     suspend fun getSerieDetail(@Path("id") id: String, @Query("api_key") api_key: String, @Query("language") language : String): SerieDetail
+
+    //requête acteurs populaires
+    @GET("trending/person/week")
+    suspend fun getActeurPopulaire(@Query("api_key") api_key: String, @Query("language") language : String): ActeurPopulaire
+
+    //requête recherche d'acteurs
+    @GET("search/person")
+    suspend fun getActeurRecherche(@Query("query") query: String, @Query("api_key") api_key: String, @Query("language") language : String): ActeurPopulaire
+
+    //requête détails d'un acteur
+    @GET("person/{id}?append_to_response=credits")
+    suspend fun getActeurDetail(@Path("id") id: String, @Query("api_key") api_key: String, @Query("language") language : String): ActeurDetail
+
+    //requête filmographie acteur
+    @GET("person/{id}/movie_credits?append_to_response=credits")
+    suspend fun getFilmographie(@Path("id") id: String, @Query("api_key") api_key: String, @Query("language") language : String): Filmographie
+
+
 }

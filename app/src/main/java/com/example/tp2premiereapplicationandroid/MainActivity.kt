@@ -50,7 +50,7 @@ class MainActivity : ComponentActivity() {
 
                 NavHost(
                     navController = navController,
-                    startDestination = "Films"
+                    startDestination = "Profil"
                 ){
                     composable("Profil"){
                         Profil(navController, windowSizeClass)
@@ -68,6 +68,13 @@ class MainActivity : ComponentActivity() {
                     composable("DetailsSerie/{serieID}"){ backStackEntry ->
                         val serieID = backStackEntry.arguments?.getString("serieID") ?: ""
                         DetailsSerie(navController, windowSizeClass, viewModel, serieID)
+                    }
+                    composable("Acteurs"){
+                        Acteurs(navController, windowSizeClass, viewModel )
+                    }
+                    composable("DetailsActeur/{acteurID}"){ backStackEntry ->
+                        val acteurID = backStackEntry.arguments?.getString("acteurID") ?: ""
+                        DetailsActeur(navController, windowSizeClass, viewModel, acteurID)
                     }
                 }
             }

@@ -46,18 +46,8 @@ fun Films(navController: NavController,
 ) {
     when (windowClass.widthSizeClass) {
         WindowWidthSizeClass.Compact -> {
-            //val configuration = LocalConfiguration.current
-            //val isLandscape = configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
-          //  Log.v("orientation", "orientation:" + configuration.orientation)
             Scaffold(
                 topBar = {
-                    /* ToolBar(
-                     searchQuery = "",
-                     onSearchClick = {
-                         viewModel.getFilmsRecherche(query = it)
-                     },
-                     searchActive = false,
-                     viewModel = viewModel) */
                     BarreRecherche(
                         viewModel,
                         onSearchClick = {
@@ -79,12 +69,10 @@ fun Films(navController: NavController,
                 }
             )
         } else -> {
-        val configuration = LocalConfiguration.current
-        val isLandscape = configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
         Row(
             verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center) {
-            BarreNavigationPaysage()
+            BarreNavigationPaysage(navController)
             Box(
                 modifier = Modifier
                     .padding(10.dp)
@@ -93,7 +81,6 @@ fun Films(navController: NavController,
             ) {
                 ListeFilmsPopulaire(navController, windowClass, viewModel, nbColonne = 3)
 
-                Log.v("orientation", "orientation:" + configuration.orientation)
                 BarreRecherchePaysage(viewModel,
                     onSearchClick = {
                         viewModel.getFilmsRecherche(query = it)
@@ -103,46 +90,6 @@ fun Films(navController: NavController,
         }
     }
     }
-
-        /*topBar = {
-             ToolBar(
-             searchQuery = "",
-             onSearchClick = {
-                 viewModel.getFilmsRecherche(query = it)
-             },
-             searchActive = false,
-             viewModel = viewModel) */
-                /*FloatingActionButton(onClick = {
-                    BarreRecherche(
-                        viewModel,
-                        onSearchClick = {
-                            viewModel.getFilmsRecherche(query = it)
-                        } ) }) {
-
-               }*/ /*
-                BarreRecherche(
-                    viewModel,
-                    onSearchClick = {
-                        viewModel.getFilmsRecherche(query = it)
-                    })*/
-        /*    },
-
-            bottomBar = {
-                LeftBarreNavigationChat()
-            },
-            content = {
-                Box(
-                    modifier = Modifier
-                        .padding(it) // Utilisez contentPadding pour définir la marge intérieure
-                        .fillMaxWidth()
-                ) {
-                    ListeFilmsPopulaire(navController, windowClass, viewModel)
-                }
-            }
-        )
-    }
-    }
-} */
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -175,7 +122,7 @@ fun ListeFilmsPopulaire(navController: NavController,
                             .height(380.dp)
                             .padding(8.dp),
                         colors = CardDefaults.cardColors(
-                            containerColor = Color.White,
+                            containerColor = Color(0xFF142949),
                         )
                     ){
                         Box(
@@ -210,8 +157,7 @@ fun ListeFilmsPopulaire(navController: NavController,
                             style = MaterialTheme.typography.titleLarge,
                             fontSize = 18.sp,
                             fontWeight = FontWeight.Bold,
-                            modifier = Modifier
-                                //.padding(top = 2.dp)
+                            color = Color.White
                         )
                         Text(
                             text = formatDate(
@@ -223,8 +169,7 @@ fun ListeFilmsPopulaire(navController: NavController,
                             style = MaterialTheme.typography.titleLarge,
                             fontSize = 12.sp,
                             fontWeight = FontWeight.Medium,
-                            modifier = Modifier
-                                //.padding(top = 2.dp)
+                            color = Color.White
                         )
 
                     }

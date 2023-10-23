@@ -1,6 +1,7 @@
 package com.example.tp2premiereapplicationandroid
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -58,50 +59,162 @@ fun DetailsSerie(navController: NavController,
     }
     when (windowClass.widthSizeClass) {
         WindowWidthSizeClass.Compact -> {
+            Box(
+                modifier = Modifier
+                    .background(Color(0xFF142949)),
+            ) {
+                LazyVerticalGrid(
+                    columns = GridCells.Fixed(2),
+                    verticalArrangement = Arrangement.spacedBy(16.dp),
+                    horizontalArrangement = Arrangement.spacedBy(16.dp)
+                ) {
+                    item(span = {
+                        GridItemSpan(2)
+                    }) {
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(210.dp)
+                                .padding(bottom = 15.dp)
+                                .background(Color(0xFF142949)),
+                            contentAlignment = Alignment.BottomCenter
+                        ) {
+                            AfficheS(viewModel, serieid)
+                            Text(
+                                text = serie.name,
+                                style = MaterialTheme.typography.titleLarge,
+                                fontSize = 35.sp,
+                                fontWeight = FontWeight.Bold,
+                                color = Color.White,
+                                textAlign = TextAlign.Center,
+                            )
+                        }
+                    }
+                    item(span = {
+                        GridItemSpan(2)
+                    }) {
+                        Row(
+                            //Modifier.fillMaxSize(),
+                            verticalAlignment = Alignment.Top,
+                            horizontalArrangement = Arrangement.Center,
+                        ) {
+                            PresentationSerie(viewModel, serieid)
+                        }
+                    }
+                    item(span = {
+                        GridItemSpan(2)
+                    }) {
+                        SynopsisS(viewModel, serieid)
+                    }
+                    item(span = {
+                        GridItemSpan(2)
+                    }) {
+                        TeteAffiche()
+                    }
+                    items(serie.credits.cast) { cast ->
+                        ElevatedCard(
+                            elevation = CardDefaults.cardElevation(
+                                defaultElevation = 6.dp,
+                            ),
+                            onClick = {
+                                navController.navigate("DetailsPersonne/${cast.id}")
+                            },
+                            modifier = Modifier
+                                .width(210.dp)
+                                .height(380.dp)
+                                .padding(8.dp),
+                            colors = CardDefaults.cardColors(
+                                containerColor = Color.White,
+                            )
+                        ) {
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .fillMaxHeight()
+                            ) {
+                                Column(
+                                    horizontalAlignment = Alignment.CenterHorizontally,
+                                    verticalArrangement = Arrangement.Center
+                                ) {
+                                    Image(
+                                        painter = rememberImagePainter(
+                                            data = "https://image.tmdb.org/t/p/w780" + cast.profile_path,
+                                            builder = {
+                                                crossfade(true)
+                                            }
+                                        ),
+                                        contentDescription = "Image" + cast.name,
+                                        modifier = Modifier
+                                            .width(200.dp)
+                                            .height(300.dp)
+                                            .padding(
+                                                start = 8.dp,
+                                                top = 8.dp,
+                                                end = 8.dp,
+                                                bottom = 0.dp
+                                            )
+                                    )
+                                    Text(
+                                        text = cast.name,
+                                        style = MaterialTheme.typography.titleLarge,
+                                        fontSize = 18.sp,
+                                        fontWeight = FontWeight.Bold,
+                                        color = Color(0xFF142949)
+                                    )
+                                    Text(
+                                        text = cast.character,
+                                        style = MaterialTheme.typography.titleLarge,
+                                        fontSize = 12.sp,
+                                        fontWeight = FontWeight.Medium,
+                                        color = Color(0xFF142949)
+                                    )
+
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        } else -> {
+        Box(
+            modifier = Modifier
+                .background(Color(0xFF142949)),
+        ) {
             LazyVerticalGrid(
-                columns = GridCells.Fixed(2),
+                columns = GridCells.Fixed(4),
                 verticalArrangement = Arrangement.spacedBy(16.dp),
                 horizontalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 item(span = {
-                    GridItemSpan(2)
+                    GridItemSpan(4)
                 }) {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(210.dp)
-                            .padding(bottom = 15.dp),
-                        contentAlignment = Alignment.BottomCenter
-                    ) {
-                        AfficheS(viewModel, serieid)
-                        Text(
-                            text = serie.name,
-                            style = MaterialTheme.typography.titleLarge,
-                            fontSize = 35.sp,
-                            fontWeight = FontWeight.Bold,
-                            color = Color.White,
-                            textAlign = TextAlign.Center,
-                        )
-                    }
+                    Text(
+                        text = serie.name,
+                        style = MaterialTheme.typography.titleLarge,
+                        fontSize = 35.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Color.White,
+                        textAlign = TextAlign.Center,
+                    )
                 }
                 item(span = {
-                    GridItemSpan(2)
+                    GridItemSpan(4)
                 }) {
                     Row(
                         //Modifier.fillMaxSize(),
                         verticalAlignment = Alignment.Top,
-                        horizontalArrangement = Arrangement.Center,
+                        horizontalArrangement = Arrangement.Center
                     ) {
-                        PresentationFilm(viewModel, serieid)
+                        PresentationSerie(viewModel, serieid)
                     }
                 }
                 item(span = {
-                    GridItemSpan(2)
+                    GridItemSpan(4)
                 }) {
                     SynopsisS(viewModel, serieid)
                 }
                 item(span = {
-                    GridItemSpan(2)
+                    GridItemSpan(4)
                 }) {
                     TeteAffiche()
                 }
@@ -114,7 +227,7 @@ fun DetailsSerie(navController: NavController,
                             navController.navigate("DetailsPersonne/${cast.id}")
                         },
                         modifier = Modifier
-                            .width(210.dp)
+                            .width(150.dp)
                             .height(380.dp)
                             .padding(8.dp),
                         colors = CardDefaults.cardColors(
@@ -123,8 +236,7 @@ fun DetailsSerie(navController: NavController,
                     ) {
                         Box(
                             modifier = Modifier
-                                .fillMaxWidth()
-                                .fillMaxHeight()
+                                .fillMaxSize()
                             //.height(200.dp)
                         ) {
                             Column(
@@ -154,122 +266,17 @@ fun DetailsSerie(navController: NavController,
                                     style = MaterialTheme.typography.titleLarge,
                                     fontSize = 18.sp,
                                     fontWeight = FontWeight.Bold,
-                                    modifier = Modifier
-                                    //.padding(top = 2.dp)
+                                    color = Color(0xFF142949)
                                 )
                                 Text(
                                     text = cast.character,
                                     style = MaterialTheme.typography.titleLarge,
-                                    fontSize = 12.sp,
+                                    fontSize = 15.sp,
                                     fontWeight = FontWeight.Medium,
-                                    modifier = Modifier
-                                    //.padding(top = 2.dp)
+                                    color = Color(0xFF142949)
                                 )
 
                             }
-                        }
-                    }
-                }
-            }
-        } else -> {
-        LazyVerticalGrid(
-            columns = GridCells.Fixed(4),
-            verticalArrangement = Arrangement.spacedBy(16.dp),
-            horizontalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-            item(span = {
-                GridItemSpan(4)
-            }) {
-                Text(
-                    text = serie.name,
-                    style = MaterialTheme.typography.titleLarge,
-                    fontSize = 35.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = Color.Black,
-                    textAlign = TextAlign.Center,
-                )
-            }
-            item(span = {
-                GridItemSpan(4)
-            }) {
-                Row(
-                    //Modifier.fillMaxSize(),
-                    verticalAlignment = Alignment.Top,
-                    horizontalArrangement = Arrangement.Center
-                ) {
-                    PresentationSerie(viewModel, serieid)
-                }
-            }
-            item(span = {
-                GridItemSpan(4)
-            }) {
-                SynopsisS(viewModel, serieid)
-            }
-            item(span = {
-                GridItemSpan(4)
-            }) {
-                TeteAffiche()
-            }
-            items(serie.credits.cast) { cast ->
-                ElevatedCard(
-                    elevation = CardDefaults.cardElevation(
-                        defaultElevation = 6.dp,
-                    ),
-                    onClick = {
-                        navController.navigate("DetailsPersonne/${cast.id}")
-                    },
-                    modifier = Modifier
-                        .width(150.dp)
-                        .height(380.dp)
-                        .padding(8.dp),
-                    colors = CardDefaults.cardColors(
-                        containerColor = Color.White,
-                    )
-                ) {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxSize()
-                        //.height(200.dp)
-                    ) {
-                        Column(
-                            horizontalAlignment = Alignment.CenterHorizontally,
-                            verticalArrangement = Arrangement.Center
-                        ) {
-                            Image(
-                                painter = rememberImagePainter(
-                                    data = "https://image.tmdb.org/t/p/w780" + cast.profile_path,
-                                    builder = {
-                                        crossfade(true)
-                                    }
-                                ),
-                                contentDescription = "Image" + cast.name,
-                                modifier = Modifier
-                                    .width(200.dp)
-                                    .height(300.dp)
-                                    .padding(
-                                        start = 8.dp,
-                                        top = 8.dp,
-                                        end = 8.dp,
-                                        bottom = 0.dp
-                                    )
-                            )
-                            Text(
-                                text = cast.name,
-                                style = MaterialTheme.typography.titleLarge,
-                                fontSize = 18.sp,
-                                fontWeight = FontWeight.Bold,
-                                modifier = Modifier
-                                //.padding(top = 2.dp)
-                            )
-                            Text(
-                                text = cast.character,
-                                style = MaterialTheme.typography.titleLarge,
-                                fontSize = 15.sp,
-                                fontWeight = FontWeight.Medium,
-                                modifier = Modifier
-                                //.padding(top = 2.dp)
-                            )
-
                         }
                     }
                 }
@@ -280,15 +287,6 @@ fun DetailsSerie(navController: NavController,
 
     }
 }
-
-
-//}
-
-
-//  }
-
-//}
-
 @Composable
 fun AfficheS(viewModel: MainViewModel, serieid: String){
     val serie by viewModel.serie.collectAsState()
@@ -374,20 +372,35 @@ fun PresentationSerie(viewModel: MainViewModel, serieid: String){
                 modifier = Modifier.size(20.dp)
             )
             Spacer(modifier = Modifier.width(10.dp))
-            Text(
-                text = "${serie.number_of_seasons} saisons",
-                style = MaterialTheme.typography.bodyMedium,
-                fontSize = 18.sp,
-                fontWeight = FontWeight.Light,
-                color = Color.Gray
-            )
-            Text(
-                text = "${serie.number_of_episodes} épisodes",
-                style = MaterialTheme.typography.bodyMedium,
-                fontSize = 18.sp,
-                fontWeight = FontWeight.Light,
-                color = Color.Gray
-            )
+            Column(
+                horizontalAlignment = Alignment.Start,
+                verticalArrangement = Arrangement.Top,
+            ) {
+                if(serie.number_of_seasons == 1) {
+                    Text(
+                        text = "${serie.number_of_seasons} saison",
+                        style = MaterialTheme.typography.bodyMedium,
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Light,
+                        color = Color.Gray
+                    )
+                } else {
+                    Text(
+                        text = "${serie.number_of_seasons} saisons",
+                        style = MaterialTheme.typography.bodyMedium,
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Light,
+                        color = Color.Gray
+                    )
+                }
+                Text(
+                    text = "${serie.number_of_episodes} épisodes",
+                    style = MaterialTheme.typography.bodyMedium,
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Light,
+                    color = Color.Gray
+                )
+            }
         }
         Row() {
             Image(
@@ -425,14 +438,14 @@ fun SynopsisS(viewModel: MainViewModel, serieid: String) {
             style = MaterialTheme.typography.titleMedium,
             fontSize = 30.sp,
             fontWeight = FontWeight.Bold,
-            color = Color.Black,
+            color = Color.White
         )
         Text(
             text = serie.overview,
             style = MaterialTheme.typography.bodyMedium,
             fontSize = 20.sp,
             fontWeight = FontWeight.Normal,
-            color = Color.Black,
+            color = Color.White
         )
 
     }

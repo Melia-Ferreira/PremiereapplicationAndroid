@@ -1,7 +1,10 @@
 package com.example.tp2premiereapplicationandroid
 
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -11,6 +14,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
@@ -18,7 +22,10 @@ import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -28,30 +35,40 @@ import androidx.navigation.NavController
 
 @Composable
 fun Profil( navController: NavController,
-    windowClass: WindowSizeClass){
+    windowClass: WindowSizeClass) {
     when (windowClass.widthSizeClass) {
         WindowWidthSizeClass.Compact -> {
-            Column(
-                Modifier.fillMaxSize(),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Color(0xFF142949))
             ) {
-                MonImage()
-                Spacer(modifier = Modifier.height(15.dp)) //espace
-                Texte()
-                Spacer(modifier = Modifier.height(30.dp)) //espace
-                Row {
-                    Reseaux()
+                Column(
+                    Modifier.fillMaxSize(),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    MonImage()
+                    Spacer(modifier = Modifier.height(15.dp)) //espace
+                    Texte()
+                    Spacer(modifier = Modifier.height(30.dp)) //espace
+                    Row {
+                        Reseaux()
+                    }
+                    Spacer(modifier = Modifier.height(30.dp)) //espace
+                    Bouton(navController)
                 }
-                Spacer(modifier = Modifier.height(30.dp)) //espace
-                Bouton(navController)
             }
-        }
 
-        else -> {
+    } else -> {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Color(0xFF142949))
+        ) {
             Row(
                 Modifier.fillMaxSize(),
-                verticalAlignment = Alignment.CenterVertically ,
+                verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Center
             ) {
                 Column(
@@ -75,6 +92,9 @@ fun Profil( navController: NavController,
         }
     }
 }
+            }
+
+
 @Composable
 fun Texte() {
     Column (horizontalAlignment = Alignment.CenterHorizontally){
@@ -82,16 +102,21 @@ fun Texte() {
             text = "Mélia Ferreira",
             style = MaterialTheme.typography.titleLarge,
             fontSize = 40.sp,
-            fontWeight = FontWeight.Bold
+            fontWeight = FontWeight.Bold,
+            color = Color.White
         )
         Text(
             text = "Étudiante en FIE4",
             style = MaterialTheme.typography.bodyMedium,
-            fontSize = 15.sp)
+            fontSize = 15.sp,
+            color = Color.White
+        )
         Text(
             text = "École d'ingénieurs ISIS Castres",
             style = MaterialTheme.typography.bodyMedium,
-            fontSize = 15.sp)
+            fontSize = 15.sp,
+            color = Color.White
+        )
 
     }
 }
@@ -125,7 +150,8 @@ fun Reseaux(){
                 text = "meliaferreira12@gmail.com",
                 style = MaterialTheme.typography.bodySmall,
                 fontSize = 18.sp,
-                fontWeight = FontWeight.Light
+                fontWeight = FontWeight.Light,
+                color = Color.White
             )
         }
         Row() {
@@ -140,7 +166,8 @@ fun Reseaux(){
                 text = "linkedin.com/in/melia-ferreira-37770b209",
                 style = MaterialTheme.typography.bodySmall,
                 fontSize = 18.sp,
-                fontWeight = FontWeight.Light
+                fontWeight = FontWeight.Light,
+                color = Color.White
             )
         }
     }
@@ -149,11 +176,17 @@ fun Reseaux(){
 
 @Composable
 fun Bouton(navController: NavController) {
-    Button(onClick ={
-        navController.navigate("Film")
-    }){
+    Button(
+        onClick = {
+            navController.navigate("Films")
+        },
+        colors = ButtonDefaults.buttonColors(Color.White)
+    ) {
         Text(
-            text = "Démarrer"
+            text = "Démarrer",
+            color = Color(0xFF142949),
+            fontSize = 23.sp,
+
         )
     }
 }
