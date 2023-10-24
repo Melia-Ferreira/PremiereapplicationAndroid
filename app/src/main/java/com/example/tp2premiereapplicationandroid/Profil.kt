@@ -49,13 +49,13 @@ fun Profil( navController: NavController,
                     verticalArrangement = Arrangement.Center
                 ) {
                     MonImage()
-                    Spacer(modifier = Modifier.height(15.dp)) //espace
+                    Spacer(modifier = Modifier.height(15.dp)) //saute une ligne
                     Texte()
-                    Spacer(modifier = Modifier.height(30.dp)) //espace
+                    Spacer(modifier = Modifier.height(30.dp))
                     Row {
                         Reseaux()
                     }
-                    Spacer(modifier = Modifier.height(30.dp)) //espace
+                    Spacer(modifier = Modifier.height(30.dp))
                     Bouton(navController)
                 }
             }
@@ -76,16 +76,16 @@ fun Profil( navController: NavController,
                 )
                 {
                     MonImage()
-                    Spacer(modifier = Modifier.height(15.dp)) //espace
+                    Spacer(modifier = Modifier.height(15.dp))
                     Texte()
-                    Spacer(modifier = Modifier.height(30.dp)) //espace
+                    Spacer(modifier = Modifier.height(30.dp))
                 }
                 Spacer(modifier = Modifier.width(50.dp))
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Reseaux()
-                    Spacer(modifier = Modifier.height(30.dp)) //espace
+                    Spacer(modifier = Modifier.height(30.dp))
                     Bouton(navController)
                 }
             }
@@ -95,6 +95,7 @@ fun Profil( navController: NavController,
             }
 
 
+//Mise en page de ma présentation
 @Composable
 fun Texte() {
     Column (horizontalAlignment = Alignment.CenterHorizontally){
@@ -120,6 +121,8 @@ fun Texte() {
 
     }
 }
+
+//Design photo de profil
 @Composable
 fun MonImage(){
     Column() {
@@ -135,6 +138,7 @@ fun MonImage(){
     }
 }
 
+//Mise en page des réseaux sociaux
 @Composable
 fun Reseaux(){
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
@@ -174,11 +178,12 @@ fun Reseaux(){
 
 }
 
+//Bouton pour démarrer l'application
 @Composable
 fun Bouton(navController: NavController) {
     Button(
         onClick = {
-            navController.navigate("Films")
+            navController.navigate("Films") //destination si le bouton est cliqué
         },
         colors = ButtonDefaults.buttonColors(Color.White)
     ) {

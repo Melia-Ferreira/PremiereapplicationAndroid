@@ -61,7 +61,7 @@ fun Acteurs(navController: NavController,
                 content = {
                     Box(
                         modifier = Modifier
-                            .padding(it) // Utilisez contentPadding pour définir la marge intérieure
+                            .padding(it)
                             .fillMaxWidth()
                     ) {
                         ListeActeursPopulaire(navController, windowClass, viewModel)

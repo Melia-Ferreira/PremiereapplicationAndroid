@@ -1,5 +1,6 @@
 package com.example.tp2premiereapplicationandroid
 
+//Informations sur les films
 data class FilmPopulaire(
     val page: Int = 0,
     val results: List<Movie> = listOf(),
@@ -21,31 +22,6 @@ data class Movie(
     val release_date: String = "",
     val title: String = "",
     val video: Boolean = false,
-    val vote_average: Double = 0.0,
-    val vote_count: Int = 0
-)
-
-data class SeriePopulaire(
-    val page: Int = 0,
-    val results: List<Serie> = listOf(),
-    val total_pages: Int = 0,
-    val total_results: Int = 0
-)
-
-data class Serie(
-    val adult: Boolean = false,
-    val backdrop_path: String = "",
-    val first_air_date: String = "",
-    val genre_ids: List<Int> = listOf(),
-    val id: Int = 0,
-    val media_type: String = "",
-    val name: String = "",
-    val origin_country: List<String> = listOf(),
-    val original_language: String = "",
-    val original_name: String = "",
-    val overview: String = "",
-    val popularity: Double = 0.0,
-    val poster_path: String = "",
     val vote_average: Double = 0.0,
     val vote_count: Int = 0
 )
@@ -105,7 +81,6 @@ data class SpokenLanguage(
 
 data class Credits(
     val cast: List<Cast> = listOf(),
-  //  val crew: List<Crew> = listOf()
 )
 
 data class Cast(
@@ -121,6 +96,33 @@ data class Cast(
     val original_name: String = "",
     val popularity: Double = 0.0,
     val profile_path: String = ""
+)
+
+
+//Informations sur les séries
+data class SeriePopulaire(
+    val page: Int = 0,
+    val results: List<Serie> = listOf(),
+    val total_pages: Int = 0,
+    val total_results: Int = 0
+)
+
+data class Serie(
+    val adult: Boolean = false,
+    val backdrop_path: String = "",
+    val first_air_date: String = "",
+    val genre_ids: List<Int> = listOf(),
+    val id: Int = 0,
+    val media_type: String = "",
+    val name: String = "",
+    val origin_country: List<String> = listOf(),
+    val original_language: String = "",
+    val original_name: String = "",
+    val overview: String = "",
+    val popularity: Double = 0.0,
+    val poster_path: String = "",
+    val vote_average: Double = 0.0,
+    val vote_count: Int = 0
 )
 
 data class SerieDetail(
@@ -196,6 +198,8 @@ data class Season(
     val season_number: Int=0
 )
 
+
+//Informations sur les acteurs
 data class ActeurPopulaire(
     val page: Int = 0,
     val results: List<Acteur> = listOf(),
@@ -253,6 +257,7 @@ data class ActeurDetail(
 
 )
 
+//Informations sur la filmographie des acteurs
 data class Filmographie(
     val cast: List<CastFilmographie> = listOf(),
 )

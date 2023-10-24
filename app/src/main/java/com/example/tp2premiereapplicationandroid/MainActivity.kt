@@ -38,20 +38,21 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 
-class MainActivity : ComponentActivity() {
+class MainActivity : ComponentActivity() { //on utilise ComponentActivity pour gérer les interfaces utilisateurs
     @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             TP2PremiereApplicationAndroidTheme {
-                    val windowSizeClass = calculateWindowSizeClass(this)
+                    val windowSizeClass = calculateWindowSizeClass(this) //on récupère la taille de l'écran
                 val navController = rememberNavController()
-                val viewModel : MainViewModel by viewModels()
+                val viewModel : MainViewModel by viewModels() //utilisé pour stocker et gérer les données nécessaires à l'interface utilisateur
 
                 NavHost(
                     navController = navController,
-                    startDestination = "Profil"
+                    startDestination = "Profil" //destination de départ
                 ){
+                    //on définit les différentes destinations
                     composable("Profil"){
                         Profil(navController, windowSizeClass)
                     }

@@ -117,7 +117,7 @@ fun DetailsSerie(navController: NavController,
                                 defaultElevation = 6.dp,
                             ),
                             onClick = {
-                                navController.navigate("DetailsPersonne/${cast.id}")
+                                //navController.navigate("DetailsPersonne/${cast.id}")
                             },
                             modifier = Modifier
                                 .width(210.dp)
@@ -224,7 +224,7 @@ fun DetailsSerie(navController: NavController,
                             defaultElevation = 6.dp,
                         ),
                         onClick = {
-                            navController.navigate("DetailsPersonne/${cast.id}")
+                           // navController.navigate("DetailsPersonne/${cast.id}")
                         },
                         modifier = Modifier
                             .width(150.dp)

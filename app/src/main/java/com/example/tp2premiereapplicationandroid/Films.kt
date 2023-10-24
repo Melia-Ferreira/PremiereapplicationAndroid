@@ -46,6 +46,8 @@ fun Films(navController: NavController,
 ) {
     when (windowClass.widthSizeClass) {
         WindowWidthSizeClass.Compact -> {
+            //composant essentiel pour la construction d'interfaces utilisateur Android
+            //il fournit une structure de base pour la mise en page des applications Android,
             Scaffold(
                 topBar = {
                     BarreRecherche(
@@ -92,6 +94,7 @@ fun Films(navController: NavController,
     }
 
 
+//Design de trending/movie/week & search/movie
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ListeFilmsPopulaire(navController: NavController,
@@ -99,8 +102,14 @@ fun ListeFilmsPopulaire(navController: NavController,
                         viewmodel: MainViewModel,
                         nbColonne: Int=2) {
 
+    //Déclaration d'une variable movies qui est obtenue en collectant le flux de données movies à partir de l'instance de MainViewModel.
+    // La fonction collectAsState est utilisée pour collecter les données de manière réactive.
+    // Cela signifie que chaque fois que la liste de films (movies) dans MainViewModel est mise à jour, cette variable movies sera
+    // automatiquement mise à jour et reflétera ces changements.
+
+    // Cela permet à la liste de films d'être réactive par rapport aux mises à jour du ViewModel.
     val movies by viewmodel.movies.collectAsState()
-    LaunchedEffect(true) {
+    LaunchedEffect(true) { // le code à l'intérieur de LaunchedEffect sera exécuté une seule fois lorsque ce Composable est créé
         viewmodel.getFilmsInitiaux()
     }
 
@@ -109,6 +118,8 @@ fun ListeFilmsPopulaire(navController: NavController,
                 verticalArrangement = Arrangement.spacedBy(16.dp),
                 horizontalArrangement = Arrangement.spacedBy(16.dp)
             ) {
+                //Le composant items est utilisé pour itérer sur une liste de données et créer des éléments Composables pour chaque élément de la liste.
+                // À chaque itération, le film actuel est représenté par la variable movie.
                 items(movies) { movie ->
                     ElevatedCard(
                         elevation = CardDefaults.cardElevation(
@@ -153,7 +164,7 @@ fun ListeFilmsPopulaire(navController: NavController,
                                 )
                         )
                         Text(
-                            text = movie.title.takeWhile { it != ':' },
+                            text = movie.title.takeWhile { it != ':' }, //prendre le titre du film jusqu'au premier :
                             style = MaterialTheme.typography.titleLarge,
                             fontSize = 18.sp,
                             fontWeight = FontWeight.Bold,

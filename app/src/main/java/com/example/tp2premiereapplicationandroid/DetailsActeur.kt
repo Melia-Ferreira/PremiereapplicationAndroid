@@ -211,6 +211,8 @@ fun DetailsActeur(navController: NavController,
                     }) {
                         Filmographie()
                     }
+                    //afficher la filmographie de chaque acteur
+
                     /* items(acteur.credits.cast) { cast ->
                     ElevatedCard(
                         elevation = CardDefaults.cardElevation(

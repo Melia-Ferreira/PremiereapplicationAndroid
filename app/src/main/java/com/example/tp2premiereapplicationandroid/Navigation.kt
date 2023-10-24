@@ -41,6 +41,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 
+//Barre de navigation en mode portrait
 @Composable
 fun BarreNavigation(navController: NavController) {
     var selectedItem by remember { mutableIntStateOf(0) }
@@ -65,6 +66,7 @@ fun BarreNavigation(navController: NavController) {
     }
 }
 
+//Barre de navigation en mode paysage
 @Composable
 fun BarreNavigationPaysage(navController: NavController) {
     var selectedItem by remember { mutableStateOf(0) }
@@ -113,7 +115,7 @@ fun BarreNavigationPaysage(navController: NavController) {
     }
 }
 
-
+//Barre de recherche en mode portrait
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BarreRecherche( viewModel: MainViewModel,
@@ -153,7 +155,7 @@ fun BarreRecherche( viewModel: MainViewModel,
         }
     }
 
-
+//Barre de recherche en mode paysage
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BarreRecherchePaysage( viewModel: MainViewModel,
@@ -178,7 +180,7 @@ fun BarreRecherchePaysage( viewModel: MainViewModel,
             contentDescription = "Icône de temps",
             modifier = Modifier.size(20.dp),
         )
-        if (showSearchBar) {
+        if (showSearchBar) { //si on clique sur le bouton de recherche, on affiche la barre de recherche
             SearchBar(
                 modifier = Modifier
                     .semantics { traversalIndex = -1f },
@@ -204,45 +206,3 @@ fun BarreRecherchePaysage( viewModel: MainViewModel,
         }
     }
 }
-/*
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun TopBar(
-    viewModel: MainViewModel,
-    onSearchClick: (text: String) -> Unit,
-){
-    TopAppBar(
-        title={
-            Text(
-                text="Fav'App",
-                style = MaterialTheme.typography.bodyMedium,
-                color= Color.White,)
-        },
-        navigationIcon = {
-            IconButton( onClick = {  }) {
-                Icon(
-                    painter = painterResource(id = R.drawable.baseline_search_24),
-                    contentDescription = "Icône de recherche",
-                    modifier = Modifier
-                        .size(24.dp)
-                )
-            }
-        },
-        actions={
-            IconButton( onClick = {
-                BarreRecherche(viewModel,
-                    onSearchClick = {
-                        viewModel.getFilmsRecherche(query = it) )
-            },
-            }) {
-                Icon(
-                    painter = painterResource(id = R.drawable.baseline_search_24),
-                    contentDescription = "Icône de favoris",
-                    modifier = Modifier
-                        .size(24.dp)
-                )
-            }
-        }
-    )
-        }
-}*/

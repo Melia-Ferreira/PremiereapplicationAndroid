@@ -68,7 +68,7 @@ fun Séries(navController: NavController,
                 content = {
                     Box(
                         modifier = Modifier
-                            .padding(it) // Utilisez contentPadding pour définir la marge intérieure
+                            .padding(it)
                             .fillMaxWidth()
                     ) {
                         ListeSeriesPopulaire(navController, windowClass, viewModel)
@@ -98,6 +98,7 @@ fun Séries(navController: NavController,
     }
 }
 
+//Design de trending/tv/week & search/tv
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ListeSeriesPopulaire(navController: NavController,

@@ -97,7 +97,7 @@ fun DetailsFilm(navController: NavController,
                     horizontalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
                     item(span = {
-                        GridItemSpan(2)
+                        GridItemSpan(2) //faire en sorte que l'item prenne 2 colonnes/2
                     }) {
                         Box(
                             modifier = Modifier
@@ -145,7 +145,7 @@ fun DetailsFilm(navController: NavController,
                                 defaultElevation = 6.dp,
                             ),
                             onClick = {
-                                navController.navigate("DetailsPersonne/${cast.id}")
+                                //navController.navigate("DetailsPersonne/${cast.id}")
                             },
                             modifier = Modifier
                                 .width(210.dp)
@@ -252,7 +252,7 @@ fun DetailsFilm(navController: NavController,
                             defaultElevation = 6.dp,
                         ),
                         onClick = {
-                            navController.navigate("DetailsPersonne/${cast.id}")
+                            //navController.navigate("DetailsPersonne/${cast.id}")
                         },
                         modifier = Modifier
                             .width(150.dp)
@@ -315,14 +315,7 @@ fun DetailsFilm(navController: NavController,
     }
     }
 
-
-//}
-
-
-  //  }
-
-//}
-
+//Mise en page de l'affiche du film
 @Composable
 fun Affiche(viewModel: MainViewModel, movieid: String){
     val films by viewModel.film.collectAsState()
@@ -347,6 +340,7 @@ fun Affiche(viewModel: MainViewModel, movieid: String){
 
     }
 
+//Mise en page des informations d'un film
 @Composable
 fun PresentationFilm(viewModel: MainViewModel, movieid: String){
     val films by viewModel.film.collectAsState()
@@ -435,7 +429,7 @@ fun PresentationFilm(viewModel: MainViewModel, movieid: String){
         }
     }
 
-
+//Mise en page du synopsis
 @Composable
 fun Synopsis(viewModel: MainViewModel, movieid: String){
     val films by viewModel.film.collectAsState()
@@ -481,15 +475,7 @@ fun TeteAffiche(){
     )
 }
 
-/*@Composable
-fun getGenres(genres: List<Genre>): String {
-    var genresString = ""
-    for (genre in genres) {
-        genresString += genre.name + ", "
-    }
-    return genresString
-}*/
-
+//Fonction pour récupérer la liste des genres d'un film
 @Composable
 fun getGenres(genres: List<Genre>): String {
     var genresString = ""
@@ -503,6 +489,7 @@ fun getGenres(genres: List<Genre>): String {
 }
 
 
+//Fonction pour formater la date comme on le souhaite
 @Composable
 fun formatDate(date: String,actualDateFormat: String, newDateFormat: String, locale: Locale): String {
     try {
